@@ -11,42 +11,76 @@ struct ServerCard: View {
     @State var detailedMode = false
     @State var arrowAngle: Double = 0
     @Binding var server: ServerItem
+    var miniMode: Bool{
+        return (!detailedMode) && UIDevice.isIPhone
+    }
     var body: some View {
+        
         ZStack{
             RoundedRectangle(cornerRadius: 20)
                 .fill(server.online4 || server.online6
                       ? Color.blue.opacity(0.68).gradient : Color.gray.gradient)
                 .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
-                //.animation(.spring((response: 0.5, dampingFraction: 0.5, blendDuration: 0.5)))
-            VStack{
-                basicInfo
-                Spacer()
-                Spacer()
-                if (detailedMode) {
-                    pipeMeters
-                }else{
-                    arcMeters
-                }
-            }.padding(20)
-            VStack{
-                HStack{
+                .animation(customizedSpringAnimatation)
+            if (UIDevice.isIPhone){
+                //iPhone layout
+                VStack{
+                    basicInfo
                     Spacer()
-                    realTimeToggler
-                }
-                Spacer()
-            }.padding(10)
-        }.frame(maxWidth: 400, maxHeight: detailedMode ? nil : 350)
+                    Spacer()
+                    if (detailedMode) {
+                        pipeMeters
+                    }else{
+                        arcMeters
+                    }
+                }.padding(20)
+                VStack{
+                    HStack{
+                        Spacer()
+                        realTimeToggler
+                    }
+                    Spacer()
+                }.padding(10)
+            }else{
+                //Mac and iPad layout
+                VStack{
+                    basicInfo
+                    Spacer()
+                    Spacer()
+                    if (detailedMode) {
+                        pipeMeters
+                    }else{
+                        arcMeters
+                    }
+                }.padding(20)
+                VStack{
+                    HStack{
+                        Spacer()
+                        realTimeToggler
+                    }
+                    Spacer()
+                }.padding(10)
+            }
+            
+        }.frame(
+//            maxWidth: miniMode ? 150 : 400,
+//            maxHeight: miniMode ? 300 : (detailedMode ? nil : 210)
+            maxWidth: 400,
+            maxHeight: detailedMode ? nil : 210
+                
+        )
             .font(.system(size: 16, weight: .bold, design: .rounded))
             .padding(10)
 
     }
+    
     var realTimeToggler: some View{
         Image(systemName: "projective")
             .rotationEffect(Angle(degrees: arrowAngle), anchor: .center)
             .background(Circle().foregroundColor(.gray.opacity(detailedMode ? 0.15 : 0)).frame(width: 25, height: 25, alignment: .center))
             .foregroundColor(.white).opacity(detailedMode ? 0.8 : 0.6)
             .onTapGesture {
-                withAnimation(.spring()){
+                withAnimation(customizedSpringAnimatation){
                     detailedMode.toggle()
                     if detailedMode{
                         arrowAngle += 180
@@ -55,6 +89,12 @@ struct ServerCard: View {
                     }
                 }
             }
+    }
+    var miniModeInfo: some View{
+        VStack{
+            Text(Region[server.region] ?? "🇺🇳")
+                .font(.system(size: 40))
+        }
     }
     var basicInfo: some View{
         VStack{
@@ -122,7 +162,7 @@ struct ServerCard: View {
     }
     var arcMeters: some View{
         VStack{
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 60, maximum: 80))], alignment: .center, spacing: 20, content: {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], alignment: .center, spacing: 20, content: {
                 
                 Meter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu", displayMode: Meter.DisplayMode.arc)
                 Meter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip", displayMode: Meter.DisplayMode.arc)

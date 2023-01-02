@@ -8,6 +8,7 @@
 import SwiftUI
 
 @main
+
 struct ServerStatusApp: App {
     var body: some Scene {
         WindowGroup {

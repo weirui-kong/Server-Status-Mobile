@@ -13,8 +13,10 @@
 		0A22864F29271ACA00CFEC50 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A22864E29271ACA00CFEC50 /* Preview Assets.xcassets */; };
 		0A22865829271CF200CFEC50 /* ServerDataStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22865729271CF200CFEC50 /* ServerDataStructure.swift */; };
 		0A22865D29274C7B00CFEC50 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0A22865C29274C7B00CFEC50 /* Alamofire */; };
+		0A729E2B2962E0F8006FA757 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A729E2A2962E0F8006FA757 /* Extensions.swift */; };
+		0A868B792962B004004F6711 /* IsScrolling in Frameworks */ = {isa = PBXBuildFile; productRef = 0A868B782962B004004F6711 /* IsScrolling */; };
 		0AB88A0029616E3000ED1526 /* ServerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB889FF29616E3000ED1526 /* ServerCard.swift */; };
-		0AB88A0229616E3F00ED1526 /* Dash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0129616E3F00ED1526 /* Dash.swift */; };
+		0AB88A0229616E3F00ED1526 /* Meter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0129616E3F00ED1526 /* Meter.swift */; };
 		0AB88A0429616E5200ED1526 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0329616E5200ED1526 /* Regions.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,8 +28,9 @@
 		0A22864C29271ACA00CFEC50 /* ServerStatus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ServerStatus.entitlements; sourceTree = "<group>"; };
 		0A22864E29271ACA00CFEC50 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A22865729271CF200CFEC50 /* ServerDataStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDataStructure.swift; sourceTree = "<group>"; };
+		0A729E2A2962E0F8006FA757 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0AB889FF29616E3000ED1526 /* ServerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCard.swift; sourceTree = "<group>"; };
-		0AB88A0129616E3F00ED1526 /* Dash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dash.swift; sourceTree = "<group>"; };
+		0AB88A0129616E3F00ED1526 /* Meter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meter.swift; sourceTree = "<group>"; };
 		0AB88A0329616E5200ED1526 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -36,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A868B792962B004004F6711 /* IsScrolling in Frameworks */,
 				0A22865D29274C7B00CFEC50 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				0AB889FF29616E3000ED1526 /* ServerCard.swift */,
-				0AB88A0129616E3F00ED1526 /* Dash.swift */,
+				0AB88A0129616E3F00ED1526 /* Meter.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -95,6 +99,7 @@
 			children = (
 				0A22865729271CF200CFEC50 /* ServerDataStructure.swift */,
 				0AB88A0329616E5200ED1526 /* Regions.swift */,
+				0A729E2A2962E0F8006FA757 /* Extensions.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -117,6 +122,7 @@
 			name = ServerStatus;
 			packageProductDependencies = (
 				0A22865C29274C7B00CFEC50 /* Alamofire */,
+				0A868B782962B004004F6711 /* IsScrolling */,
 			);
 			productName = ServerStatus;
 			productReference = 0A22864329271AC700CFEC50 /* ServerStatus.app */;
@@ -148,6 +154,7 @@
 			mainGroup = 0A22863A29271AC700CFEC50;
 			packageReferences = (
 				0A22865B29274C7B00CFEC50 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				0A868B772962B004004F6711 /* XCRemoteSwiftPackageReference "IsScrolling" */,
 			);
 			productRefGroup = 0A22864429271AC700CFEC50 /* Products */;
 			projectDirPath = "";
@@ -177,10 +184,11 @@
 			files = (
 				0AB88A0029616E3000ED1526 /* ServerCard.swift in Sources */,
 				0AB88A0429616E5200ED1526 /* Regions.swift in Sources */,
-				0AB88A0229616E3F00ED1526 /* Dash.swift in Sources */,
+				0AB88A0229616E3F00ED1526 /* Meter.swift in Sources */,
 				0A22865829271CF200CFEC50 /* ServerDataStructure.swift in Sources */,
 				0A22864929271AC700CFEC50 /* ContentView.swift in Sources */,
 				0A22864729271AC700CFEC50 /* ServerStatusApp.swift in Sources */,
+				0A729E2B2962E0F8006FA757 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,8 +325,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -351,8 +358,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -400,6 +406,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		0A868B772962B004004F6711 /* XCRemoteSwiftPackageReference "IsScrolling" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fatbobman/IsScrolling.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -407,6 +421,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0A22865B29274C7B00CFEC50 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		0A868B782962B004004F6711 /* IsScrolling */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A868B772962B004004F6711 /* XCRemoteSwiftPackageReference "IsScrolling" */;
+			productName = IsScrolling;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

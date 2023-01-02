@@ -1,5 +1,5 @@
 # Server-Status-Mobile
-Server Status Mobile is a light-weight application providing you with basic infomation of servers based on APIs of several open source projects.
+Server Status Mobile is a light-weight application providing you with real-time infomation of servers based on APIs of several open source projects.
 # Supported Platforms
 - ✅ macOS
 - ✅ iOS
@@ -7,7 +7,7 @@ Server Status Mobile is a light-weight application providing you with basic info
 - ⭕️ tvOS (scheduled)
 - ⭕️ watchOS (scheduled)
 - ❌ Android (no schedules)
-# Supported ServerStatus APIs
+# Supported APIs
 - ✅ [cokemine](https://github.com/cokemine) / [ServerStatus-Hotaru](https://github.com/cokemine/ServerStatus-Hotaru)
 - ⭕️ other... (scheduled)
 # Previews
