@@ -8,24 +8,22 @@
 import SwiftUI
 
 struct ServerCard: View {
-    @State var detailedMode = true
+    @State var detailedMode = false
     @State var arrowAngle: Double = 0
     @Binding var server: ServerItem
-    @GestureState var position: CGPoint = .zero
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
                 .fill(server.online4 || server.online6
                       ? Color.blue.opacity(0.68).gradient : Color.gray.gradient)
                 .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
-                .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5))
+                //.animation(.spring((response: 0.5, dampingFraction: 0.5, blendDuration: 0.5)))
             VStack{
                 basicInfo
                 Spacer()
-                
                 Spacer()
                 if (detailedMode) {
-                    detailedInfo
+                    pipeMeters
                 }else{
                     arcMeters
                 }
@@ -39,22 +37,7 @@ struct ServerCard: View {
             }.padding(10)
         }.frame(maxWidth: 400, maxHeight: detailedMode ? nil : 350)
             .font(.system(size: 16, weight: .bold, design: .rounded))
-            .transition(.slide)
-            .offset(x: position.x, y: position.y)
             .padding(10)
-            .scaleEffect(position == .zero ? 1 : 1.1)
-//            .gesture(
-//                DragGesture()
-//                    .updating($position, body: {current, state, transaction in
-//                        state = .init(
-//                            x: max(min(current.translation.width, 20), -20),
-//                            y: max(min(current.translation.height, 20), -20)
-//                        )
-//                        transaction.isContinuous = true
-//
-//                    })
-//            )
-            
 
     }
     var realTimeToggler: some View{
@@ -63,7 +46,7 @@ struct ServerCard: View {
             .background(Circle().foregroundColor(.gray.opacity(detailedMode ? 0.15 : 0)).frame(width: 25, height: 25, alignment: .center))
             .foregroundColor(.white).opacity(detailedMode ? 0.8 : 0.6)
             .onTapGesture {
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.4, blendDuration: 0.5)){
+                withAnimation(.spring()){
                     detailedMode.toggle()
                     if detailedMode{
                         arrowAngle += 180
@@ -76,57 +59,63 @@ struct ServerCard: View {
     var basicInfo: some View{
         VStack{
             HStack{
-                
                 Text(Region[server.region] ?? "🇺🇳")
-                    .font(.system(size: 80))
-                Spacer()
-                VStack{
+                    .font(.system(size: detailedMode ? 80 : 50))
+                if(detailedMode){
+                    Spacer()
+                    VStack{
+                        Text("\(server.name)")
+                        Text("\(server.location)")
+                    }.font(.system(size: 21, weight: .bold, design: .rounded))
+                        .minimumScaleFactor(0.5)
+                    Spacer()
+                }else{
                     Text("\(server.name)")
                     Text("\(server.location)")
-                }.font(.system(size: 21, weight: .bold, design: .rounded))
-                    .minimumScaleFactor(0.5)
-                Spacer()
-                
+                }
             }
             
             VStack{
-                HStack{
-                    Image(systemName: "arrow.left.and.right.square")
-                    Text("IPv4:")
-                    Text(server.online4 ? "ONLINE" : "OFFLINE")
-                        .foregroundColor(server.online4 ? .white : .black.opacity(0.5))
-                    Spacer()
-                    Image(systemName: "shippingbox")
-                    Text("VZ:")
-                    Text(server.type)
-                    
-                }
-                HStack{
-
-                    Image(systemName: "arrow.left.and.right.square")
-                    Text("IPv6:")
-                    Text(server.online6 ? "ONLINE" : "OFFLINE")
-                        .foregroundColor(server.online6 ? .white : .black.opacity(0.5))
-                    Spacer()
-                    Image(systemName: "network")
-                    Text("BW:")
-                    Text(byteToKB_MB_GB(byte: (server.network_in ?? 0) + (server.network_out ?? 0)))
-                }
-                Text("Up Time：\(server.uptime_EN )")
-                    .padding(1)
-                    .id("uptime")
-                //Network capsule
-                ZStack{
+                if(detailedMode){
+                    //Network Label
                     HStack{
-                        Image(systemName: "tray.and.arrow.down")
-                        Text(server.network_rx_text + "/s")
+                        Image(systemName: "arrow.left.and.right.square")
+                        Text("IPv4:")
+                        Text(server.online4 ? "ONLINE" : "OFFLINE")
+                            .foregroundColor(server.online4 ? .white : .black.opacity(0.5))
                         Spacer()
+                        Image(systemName: "shippingbox")
+                        Text("VZ:")
+                        Text(server.type)
                         
-                        Text(server.network_tx_text + "/s")
-                        Image(systemName: "tray.and.arrow.up")
                     }
-                    Image(systemName: "arrow.up.arrow.down.circle")
-                }.background(Capsule().foregroundColor(.gray.opacity(0.6)).padding(-5))
+                    HStack{
+
+                        Image(systemName: "arrow.left.and.right.square")
+                        Text("IPv6:")
+                        Text(server.online6 ? "ONLINE" : "OFFLINE")
+                            .foregroundColor(server.online6 ? .white : .black.opacity(0.5))
+                        Spacer()
+                        Image(systemName: "network")
+                        Text("BW:")
+                        Text(byteToKB_MB_GB(byte: (server.network_in ?? 0) + (server.network_out ?? 0)))
+                    }
+                    Text("Up Time：\(server.uptime_EN )")
+                        .padding(1)
+                        .id("uptime")
+                    //Network capsule
+                    ZStack{
+                        HStack{
+                            Image(systemName: "tray.and.arrow.down")
+                            Text(server.network_rx_text + "/s")
+                            Spacer()
+                            
+                            Text(server.network_tx_text + "/s")
+                            Image(systemName: "tray.and.arrow.up")
+                        }
+                        Image(systemName: "arrow.up.arrow.down.circle")
+                    }.background(Capsule().foregroundColor(.gray.opacity(0.6)).padding(-5))
+                }
             }
         }.foregroundColor(.white)
         
@@ -144,7 +133,7 @@ struct ServerCard: View {
         }.foregroundColor(.white)
        
     }
-    var detailedInfo: some View{
+    var pipeMeters: some View{
         VStack{
             Meter(percentage: $server.cpu_p,
                   lable: "CPU",
@@ -172,3 +161,8 @@ struct ServerCard: View {
     
 }
 
+struct ServerCard_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}

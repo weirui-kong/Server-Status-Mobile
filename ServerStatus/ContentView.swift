@@ -15,27 +15,22 @@ struct ContentView: View {
     var body: some View {
         ScrollView{
             VStack {
-//                Button("Enable", action: startUpdating)
-//                Button("Disable"){
-//                    autoRefresh = false
-//                    serverItems = []
-//                }
                 serverListView
-                
+                    .padding(10)
             }
         }
         
     }
     var serverListView: some View{
         VStack{
-            LazyHGrid(rows: [GridItem(.adaptive(minimum: 340, maximum: 450))], alignment: .center, spacing: 10, content: {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 340, maximum: 450))], alignment: .center, spacing: 10){
                 ForEach($serverItems, id: \.self.id) { item in
                     ServerCard(server: item)
                 }
-           }).onAppear(perform: {
+            }.onAppear(perform: {
                 startUpdating()
            })
-        }.padding(20)
+        }
         
         
     }
@@ -68,8 +63,8 @@ struct ContentView: View {
     
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}

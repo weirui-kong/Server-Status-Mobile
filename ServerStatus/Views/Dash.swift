@@ -28,7 +28,7 @@ struct Meter: View {
                         .trim(from: minTrimOffset, to: minTrimOffset + calcOffsetFromPercentage() )
                         .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                         .foregroundColor(vivifiedMeterColor())
-                        .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5))
+                        //.animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5))
                     
                 }.frame(maxWidth: meterMaxWidth)
                     
@@ -54,21 +54,16 @@ struct Meter: View {
                         HStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(vivifiedMeterColor())
-                                .frame(width: max(reader.size.width * percentage, 20))
-                            .animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5))
+                                .frame(width: max(reader.size.width * percentage >= 0 ? reader.size.width * percentage : 0, 20))
+                            //.animation(.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5))
                             Spacer(minLength: 0)
                         }
                         Text(optionalValue ?? "")
                             //.shadow(color: .gray, radius: percentage > 0.3 ? 5 : 50, x: 2, y: 2)
                     }
                 }
-                
             }
         }
-        
-        
-            
-        
     }
     func calcOffsetFromPercentage() -> CGFloat{
         withAnimation(.spring(response: 0.2, dampingFraction: 0.5, blendDuration: 0.5)){
