@@ -94,7 +94,8 @@ struct ServerItem: Identifiable {
         self.online6 = server.online6
         self.uptime = server.uptime
         if let ut = uptime{
-            self.uptime_EN = ut.replacing("天", with: "days")
+            //self.uptime_EN = ut.replacing("天", with: "days")
+            self.uptime_EN = ut.replacingOccurrences(of: "天", with: "days")
         }else{
             self.uptime = server.uptime
             self.uptime_EN = "OFFLINE"

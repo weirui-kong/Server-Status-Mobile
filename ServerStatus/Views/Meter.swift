@@ -23,12 +23,12 @@ struct Meter: View {
                     Circle()
                         .trim(from: minTrimOffset, to: maxTrimOffset)
                         .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
-                        .foregroundColor(meterBaseColor)
+                        //.foregroundColor(meterBaseColor)
                     Circle()
                         .trim(from: minTrimOffset, to: minTrimOffset + calcOffsetFromPercentage() )
                         .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                         .foregroundColor(vivifiedMeterColor())
-                        .animation(customizedSpringAnimatation)
+                        //.animation(customizedSpringAnimatation)
                     
                 }.frame(maxWidth: meterMaxWidth)
                     
@@ -56,7 +56,7 @@ struct Meter: View {
                                 .foregroundColor(vivifiedMeterColor())
                                 //.frame(width: reader.size.width * percentage != 0 ? reader.size.width * percentage : 20)
                                 .frame(width: percentage == 0 ? 0 : max(reader.size.width * percentage, 20))
-                            .animation(customizedSpringAnimatation)
+                            //.animation(customizedSpringAnimatation)
                             Spacer(minLength: 0)
                         }
                         Text(optionalValue ?? "")

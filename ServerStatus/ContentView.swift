@@ -10,39 +10,47 @@ import Alamofire
 import IsScrolling
 let customizedSpringAnimatation: Animation = Animation.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5)
 struct ContentView: View {
-    @State var serverItems: [ServerItem] = []
-    @State var autoRefresh = false
-    @State var domain = "server.onespirit.fyi"
-    @State var isScrolling = false
+    @State private var serverItems: [ServerItem] = []
+    @State private var autoRefresh = false
+    @State private var domain = "server.onespirit.fyi"
+    @State private var isScrolling = false
     var justPopIn = true
     var body: some View {
         ScrollView{
-            VStack {
-                serverListView
-                    .padding(10)
-            }
-        }
+#if os(macOS)
+            serverListView
+#else
+            serverListView
+                .padding(10)
+#endif  
+        }.onAppear(perform: {startUpdating()})
         
     }
     var serverListView: some View{
-        VStack{
-            LazyVGrid(columns: [GridItem(.adaptive(
-//                minimum: UIDevice.isIPhone ? 150 : 350,
-//                maximum: UIDevice.isIPhone ? 200 : 450
-                minimum: 350, maximum: 450
-            ))], alignment: .center, spacing: 10){
-                ForEach($serverItems, id: \.self.id) { item in
-                    ServerCard(server: item)
-                        .scrollSensor()
-                        
-                        
-                }
-                
-            }.onAppear(perform: {startUpdating()}
-            ).scrollStatusMonitor($isScrolling, monitorMode: .common)
-            
-        }
-        
+        #if os(macOS)
+            VStack{
+                LazyVGrid(columns: [GridItem(.adaptive(
+                    minimum: 360 * 0.9, maximum: 450 * 0.9
+                ))], alignment: .center, spacing: 10 * 0.9){
+                    ForEach($serverItems, id: \.self.id) { item in
+                        ServerCard(server: item)
+                            .scrollSensor()
+                    }
+                }.scrollStatusMonitor($isScrolling, monitorMode: .common)
+                    .scaleEffect(0.9)
+            }
+        #else
+            VStack{
+                LazyVGrid(columns: [GridItem(.adaptive(
+                    minimum: 360, maximum: 450
+                ))], alignment: .center, spacing: 10){
+                    ForEach($serverItems, id: \.self.id) { item in
+                        ServerCard(server: item)
+                            .scrollSensor()
+                    }
+                }.scrollStatusMonitor($isScrolling, monitorMode: .common)
+            }
+        #endif
         
     }
     func startUpdating(){
@@ -58,7 +66,10 @@ struct ContentView: View {
                             let jsonString = String(decoding: jsonData!, as: UTF8.self)
                             let serversResponse = try! JSONDecoder().decode(ServerResponse.self, from: jsonString.data(using: .utf8)!)
                             if (!self.isScrolling){
-                                serverItems = toServerItems(servers: serversResponse.servers)
+                                withAnimation(customizedSpringAnimatation){
+                                    serverItems = toServerItems(servers: serversResponse.servers)
+                                }
+                                
                             }
                            
                             //print(serversResponse)

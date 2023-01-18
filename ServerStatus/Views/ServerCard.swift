@@ -11,56 +11,44 @@ struct ServerCard: View {
     @State var detailedMode = false
     @State var arrowAngle: Double = 0
     @Binding var server: ServerItem
-    var miniMode: Bool{
-        return (!detailedMode) && UIDevice.isIPhone
-    }
+//    var miniMode: Bool{
+//        return (!detailedMode) && UIDevice.isIPhone
+//    }
     var body: some View {
-        
         ZStack{
-            RoundedRectangle(cornerRadius: 20)
-                .fill(server.online4 || server.online6
-                      ? Color.blue.opacity(0.68).gradient : Color.gray.gradient)
-                .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
-                .animation(customizedSpringAnimatation)
-            if (UIDevice.isIPhone){
-                //iPhone layout
-                VStack{
-                    basicInfo
-                    Spacer()
-                    Spacer()
-                    if (detailedMode) {
-                        pipeMeters
-                    }else{
-                        arcMeters
-                    }
-                }.padding(20)
-                VStack{
-                    HStack{
-                        Spacer()
-                        realTimeToggler
-                    }
-                    Spacer()
-                }.padding(10)
-            }else{
-                //Mac and iPad layout
-                VStack{
-                    basicInfo
-                    Spacer()
-                    Spacer()
-                    if (detailedMode) {
-                        pipeMeters
-                    }else{
-                        arcMeters
-                    }
-                }.padding(20)
-                VStack{
-                    HStack{
-                        Spacer()
-                        realTimeToggler
-                    }
-                    Spacer()
-                }.padding(10)
+            if #available(iOS 16.0, macOS 13.0, *) {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(server.online4 || server.online6
+                          ? Color.blue.opacity(0.65).gradient : Color.gray.gradient)
+                    .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
+                    //.animation(customizedSpringAnimatation)
+            } else {
+                // Fallback on earlier versions
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(server.online4 || server.online6
+                          ? Color.blue.opacity(0.65) : Color.gray)
+                    .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
+                    //.animation(customizedSpringAnimatation)
             }
+            
+            //default layout
+            VStack{
+                basicInfo
+                Spacer()
+                Spacer()
+                if (detailedMode) {
+                    pipeMeters
+                }else{
+                    arcMeters
+                }
+            }.padding(20)
+            VStack{
+                HStack{
+                    Spacer()
+                    realTimeToggler
+                }
+                Spacer()
+            }.padding(10)
             
         }.frame(
 //            maxWidth: miniMode ? 150 : 400,
@@ -71,7 +59,6 @@ struct ServerCard: View {
         )
             .font(.system(size: 16, weight: .bold, design: .rounded))
             .padding(10)
-
     }
     
     var realTimeToggler: some View{
@@ -80,7 +67,7 @@ struct ServerCard: View {
             .background(Circle().foregroundColor(.gray.opacity(detailedMode ? 0.15 : 0)).frame(width: 25, height: 25, alignment: .center))
             .foregroundColor(.white).opacity(detailedMode ? 0.8 : 0.6)
             .onTapGesture {
-                withAnimation(customizedSpringAnimatation){
+                withAnimation(){
                     detailedMode.toggle()
                     if detailedMode{
                         arrowAngle += 180
