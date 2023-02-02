@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>APITypes</key>
+	<array>
+		<dict>
+			<key>NAME</key>
+			<string>HAROKU</string>
+			<key>DEFAULTPATH</key>
+			<string>/json/stats.json</string>
+		</dict>
+	</array>
+	<key>APIAddresses</key>
+	<array>
+		<dict>
+			<key>API</key>
+			<string>https://server.onespirit.fyi/json/stats.json</string>
+			<key>NAME</key>
+			<string>OSP</string>
+			<key>TAG</key>
+			<string></string>
+		</dict>
+	</array>
+</dict>
+</plist>

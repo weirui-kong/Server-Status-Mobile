@@ -23,19 +23,20 @@ struct Meter: View {
                     Circle()
                         .trim(from: minTrimOffset, to: maxTrimOffset)
                         .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
-                        //.foregroundColor(meterBaseColor)
+                    //.foregroundColor(meterBaseColor)
                     Circle()
                         .trim(from: minTrimOffset, to: minTrimOffset + calcOffsetFromPercentage() )
                         .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                         .foregroundColor(vivifiedMeterColor())
-                        //.animation(customizedSpringAnimatation)
+                    //.animation(customizedSpringAnimatation)
                     
                 }.frame(maxWidth: meterMaxWidth)
-                    
+                
                 //label
                 VStack{
                     Image(systemName: icon)
-                        .frame(width: 20, height: 20, alignment: .center)
+                        .frame(width: 28, height: 25, alignment: .center)
+                        .offset(y:5)
                     Text(lable)
                 }
                 
@@ -54,13 +55,13 @@ struct Meter: View {
                         HStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(vivifiedMeterColor())
-                                //.frame(width: reader.size.width * percentage != 0 ? reader.size.width * percentage : 20)
+                            //.frame(width: reader.size.width * percentage != 0 ? reader.size.width * percentage : 20)
                                 .frame(width: percentage == 0 ? 0 : max(reader.size.width * percentage, 20))
                             //.animation(customizedSpringAnimatation)
                             Spacer(minLength: 0)
                         }
                         Text(optionalValue ?? "")
-                            //.shadow(color: .gray, radius: percentage > 0.3 ? 5 : 50, x: 2, y: 2)
+                        //.shadow(color: .gray, radius: percentage > 0.3 ? 5 : 50, x: 2, y: 2)
                     }
                 }
             }
@@ -87,9 +88,9 @@ struct Meter: View {
     }
 }
 
-struct Meter_Previews: PreviewProvider {
-
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct Meter_Previews: PreviewProvider {
+//    
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

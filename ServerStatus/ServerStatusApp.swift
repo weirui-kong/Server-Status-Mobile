@@ -8,11 +8,21 @@
 import SwiftUI
 
 @main
+struct ServerStatusApp:  App {
 
-struct ServerStatusApp: App {
+    @State var serversStoredDict: [String : AnyObject]?
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(serversStoredDict: $serversStoredDict)
+                .onAppear(perform: loadServersStoredPlist)
         }
     }
+    func loadServersStoredPlist(){
+        if let path = Bundle.main.path(forResource: "ServersStored", ofType: "plist") {
+          if let dict = NSDictionary(contentsOfFile: path) as? Dictionary<String, AnyObject> {
+              self.serversStoredDict = dict
+          }
+        }
+    }
+    
 }

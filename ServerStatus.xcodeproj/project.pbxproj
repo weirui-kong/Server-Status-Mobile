@@ -18,6 +18,8 @@
 		0AB88A0029616E3000ED1526 /* ServerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB889FF29616E3000ED1526 /* ServerCard.swift */; };
 		0AB88A0229616E3F00ED1526 /* Meter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0129616E3F00ED1526 /* Meter.swift */; };
 		0AB88A0429616E5200ED1526 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0329616E5200ED1526 /* Regions.swift */; };
+		0AC09DAB298C173A0081D7DD /* ServersStored.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AC09DAA298C173A0081D7DD /* ServersStored.plist */; };
+		0AC09DAD298C1E2F0081D7DD /* ServersStored.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC09DAC298C1E2F0081D7DD /* ServersStored.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		0AB889FF29616E3000ED1526 /* ServerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCard.swift; sourceTree = "<group>"; };
 		0AB88A0129616E3F00ED1526 /* Meter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meter.swift; sourceTree = "<group>"; };
 		0AB88A0329616E5200ED1526 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
+		0AC09DAA298C173A0081D7DD /* ServersStored.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ServersStored.plist; sourceTree = "<group>"; };
+		0AC09DAC298C1E2F0081D7DD /* ServersStored.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersStored.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,7 @@
 				0A22864A29271ACA00CFEC50 /* Assets.xcassets */,
 				0A22864C29271ACA00CFEC50 /* ServerStatus.entitlements */,
 				0A22864D29271ACA00CFEC50 /* Preview Content */,
+				0AC09DAA298C173A0081D7DD /* ServersStored.plist */,
 			);
 			path = ServerStatus;
 			sourceTree = "<group>";
@@ -100,6 +105,7 @@
 				0A22865729271CF200CFEC50 /* ServerDataStructure.swift */,
 				0AB88A0329616E5200ED1526 /* Regions.swift */,
 				0A729E2A2962E0F8006FA757 /* Extensions.swift */,
+				0AC09DAC298C1E2F0081D7DD /* ServersStored.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -171,6 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A22864F29271ACA00CFEC50 /* Preview Assets.xcassets in Resources */,
+				0AC09DAB298C173A0081D7DD /* ServersStored.plist in Resources */,
 				0A22864B29271ACA00CFEC50 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AB88A0029616E3000ED1526 /* ServerCard.swift in Sources */,
+				0AC09DAD298C1E2F0081D7DD /* ServersStored.swift in Sources */,
 				0AB88A0429616E5200ED1526 /* Regions.swift in Sources */,
 				0AB88A0229616E3F00ED1526 /* Meter.swift in Sources */,
 				0A22865829271CF200CFEC50 /* ServerDataStructure.swift in Sources */,
@@ -245,7 +253,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -299,7 +307,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -326,7 +334,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
@@ -359,7 +367,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;

@@ -10,10 +10,10 @@ import SwiftUI
 struct ServerCard: View {
     @State var detailedMode = false
     @State var arrowAngle: Double = 0
-    @Binding var server: ServerItem
-//    var miniMode: Bool{
-//        return (!detailedMode) && UIDevice.isIPhone
-//    }
+    @Binding var server: ServerStatus_Single
+    //    var miniMode: Bool{
+    //        return (!detailedMode) && UIDevice.isIPhone
+    //    }
     var body: some View {
         ZStack{
             if #available(iOS 16.0, macOS 13.0, *) {
@@ -21,14 +21,14 @@ struct ServerCard: View {
                     .fill(server.online4 || server.online6
                           ? Color.blue.opacity(0.65).gradient : Color.gray.gradient)
                     .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
-                    //.animation(customizedSpringAnimatation)
+                //.animation(customizedSpringAnimatation)
             } else {
                 // Fallback on earlier versions
                 RoundedRectangle(cornerRadius: 20)
                     .fill(server.online4 || server.online6
                           ? Color.blue.opacity(0.65) : Color.gray)
                     .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
-                    //.animation(customizedSpringAnimatation)
+                //.animation(customizedSpringAnimatation)
             }
             
             //default layout
@@ -51,14 +51,14 @@ struct ServerCard: View {
             }.padding(10)
             
         }.frame(
-//            maxWidth: miniMode ? 150 : 400,
-//            maxHeight: miniMode ? 300 : (detailedMode ? nil : 210)
+            //            maxWidth: miniMode ? 150 : 400,
+            //            maxHeight: miniMode ? 300 : (detailedMode ? nil : 210)
             maxWidth: 400,
             maxHeight: detailedMode ? nil : 210
-                
+            
         )
-            .font(.system(size: 16, weight: .bold, design: .rounded))
-            .padding(10)
+        .font(.system(size: 16, weight: .bold, design: .rounded))
+        .padding(10)
     }
     
     var realTimeToggler: some View{
@@ -67,7 +67,7 @@ struct ServerCard: View {
             .background(Circle().foregroundColor(.gray.opacity(detailedMode ? 0.15 : 0)).frame(width: 25, height: 25, alignment: .center))
             .foregroundColor(.white).opacity(detailedMode ? 0.8 : 0.6)
             .onTapGesture {
-                withAnimation(){
+                withAnimation(customizedSpringAnimatation){
                     detailedMode.toggle()
                     if detailedMode{
                         arrowAngle += 180
@@ -117,7 +117,7 @@ struct ServerCard: View {
                         
                     }
                     HStack{
-
+                        
                         Image(systemName: "arrow.left.and.right.square")
                         Text("IPv6:")
                         Text(server.online6 ? "ONLINE" : "OFFLINE")
@@ -158,7 +158,7 @@ struct ServerCard: View {
                 
             }).padding(15)
         }.foregroundColor(.white)
-       
+        
     }
     var pipeMeters: some View{
         VStack{
@@ -188,8 +188,8 @@ struct ServerCard: View {
     
 }
 
-struct ServerCard_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ServerCard_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(serversStoredDict: <#Binding<[String : AnyObject]?>#>)
+//    }
+//}

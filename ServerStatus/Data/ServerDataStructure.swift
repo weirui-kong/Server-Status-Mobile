@@ -51,7 +51,7 @@ func byteToKB_MB_GB(byte: UInt64?) -> String{
     }
     
 }
-struct ServerItem: Identifiable {
+struct ServerStatus_Single: Identifiable {
     let id: String
     var name: String
     var type: String
@@ -84,7 +84,7 @@ struct ServerItem: Identifiable {
     let hdd_text: String
     var custom: String?
     var region: String
-    init(server: Server){
+    init(server: RawServerStatus_Single){
         self.id = server.name + server.location
         self.name = server.name
         self.type = server.type
@@ -128,15 +128,15 @@ struct ServerItem: Identifiable {
     
 }
 
-func toServerItems(servers: [Server]) -> [ServerItem]{
-    var serverItems:[ServerItem] = []
+func toServerItems(servers: [RawServerStatus_Single]) -> [ServerStatus_Single]{
+    var serverItems:[ServerStatus_Single] = []
     for server in servers{
-        serverItems.append(ServerItem(server: server))
+        serverItems.append(ServerStatus_Single(server: server))
     }
     return serverItems
 }
 
-struct Server: Codable {
+struct RawServerStatus_Single: Codable {
     let name: String
     let type: String
     let host: String
@@ -160,8 +160,8 @@ struct Server: Codable {
     let region: String
 }
 
-struct ServerResponse: Codable{
-    let servers: [Server]
+struct RawServerResponse: Codable{
+    let servers: [RawServerStatus_Single]
     let updated: String
 }
 
