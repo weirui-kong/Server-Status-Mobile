@@ -20,7 +20,7 @@ struct ContentView: View {
         //Text(serversStoredDict?.toJsonString() ?? "")
         ScrollView{
 #if os(macOS)
-            serverListView
+            serverListView_mac
 #else
             serverListView
                 .padding(10)
@@ -28,12 +28,11 @@ struct ContentView: View {
         }.onAppear(perform: {startUpdating()})
         
     }
-    var serverListView: some View{
-#if os(macOS)
+    var serverListView_mac: some View{
         VStack{
             LazyVGrid(columns: [GridItem(.adaptive(
-                minimum: 360 * 0.9, maximum: 450 * 0.9
-            ))], alignment: .center, spacing: 10 * 0.9){
+                minimum: 360 * 1, maximum: 450 * 1
+            ))], alignment: .center, spacing: 10 * 1){
                 ForEach($serverItems, id: \.self.id) { item in
                     ServerCard(server: item)
                         .scrollSensor()
@@ -41,7 +40,8 @@ struct ContentView: View {
             }.scrollStatusMonitor($isScrolling, monitorMode: .common)
                 .scaleEffect(0.9)
         }
-#else
+    }
+    var serverListView: some View{
         VStack{
             LazyVGrid(columns: [GridItem(.adaptive(
                 minimum: 360, maximum: 450
@@ -52,8 +52,6 @@ struct ContentView: View {
                 }
             }.scrollStatusMonitor($isScrolling, monitorMode: .common)
         }
-#endif
-        
     }
     func startUpdating(){
         if !autoRefresh{

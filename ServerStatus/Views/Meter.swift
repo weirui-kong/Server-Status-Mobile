@@ -9,8 +9,8 @@ struct Meter: View {
     let meterMaxWidth: CGFloat = 80
     let meterBaseColor: Color = Color.white.opacity(0.4)
     let defaultMeterOverlapColor: [Color] = [Color.green.opacity(0.8), Color.orange.opacity(0.8), Color.red.opacity(0.8)]
-    let undefinedCaseColor = Color.black.opacity(0.9)
-    @Binding var percentage: Double
+    let undefinedCaseColor = Color.black.opacity(0.8)
+    @Binding var percentage: Double?
     let lable: String
     let icon: String
     let displayMode: DisplayMode
@@ -25,7 +25,7 @@ struct Meter: View {
                         .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                     //.foregroundColor(meterBaseColor)
                     Circle()
-                        .trim(from: minTrimOffset, to: minTrimOffset + calcOffsetFromPercentage() )
+                        .trim(from: minTrimOffset, to: minTrimOffset + calcTrimFromPercentage() )
                         .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                         .foregroundColor(vivifiedMeterColor())
                     //.animation(customizedSpringAnimatation)
@@ -55,36 +55,55 @@ struct Meter: View {
                         HStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(vivifiedMeterColor())
-                            //.frame(width: reader.size.width * percentage != 0 ? reader.size.width * percentage : 20)
-                                .frame(width: percentage == 0 ? 0 : max(reader.size.width * percentage, 20))
-                            //.animation(customizedSpringAnimatation)
+                                .frame(width: calcWidthFromPercentage(width: reader.size.width))
+                                
+                            //p = 0, w = 0
+                            //0 < p < 0.05, w = 20
+                            //p >= 0.05 w = RW * p
                             Spacer(minLength: 0)
                         }
-                        Text(optionalValue ?? "")
-                        //.shadow(color: .gray, radius: percentage > 0.3 ? 5 : 50, x: 2, y: 2)
+                        Text(optionalValue ?? "NaN")
                     }
+                    //Text("\(calcWidthFromPercentage(width: reader.size.width, percentage: percentage)),\(percentage ?? -1),\(reader.size.width)")
                 }
             }
         }
     }
-    func calcOffsetFromPercentage() -> CGFloat{
-        withAnimation(.spring(response: 0.2, dampingFraction: 0.5, blendDuration: 0.5)){
-            var res: CGFloat = 0
-            res = (maxTrimOffset - minTrimOffset) * percentage
-            return res >= 0 && res <= (maxTrimOffset - minTrimOffset) ? res : 0
+    func calcWidthFromPercentage(width: CGFloat) -> CGFloat{
+        withAnimation(customizedSpringAnimatation){
+            if let p = self.percentage{
+                return p == 0 ? 0 : p <= 0.05 ? 20 : p * width
+            }else{
+                return width
+            }
+        }
+    }
+    func calcTrimFromPercentage() -> CGFloat{
+        withAnimation(customizedSpringAnimatation){
+            if let p = self.percentage{
+                return p == 0 ? 0 : p < 0.05 ?  (maxTrimOffset - minTrimOffset) * 0.05 : (maxTrimOffset - minTrimOffset) * p
+            }else{
+                return maxTrimOffset - minTrimOffset
+            }
+           
         }
         
     }
     func vivifiedMeterColor() -> Color{
-        if(percentage < 0.5){
-            return defaultMeterOverlapColor[0]
-        }else if(percentage < 0.8){
-            return defaultMeterOverlapColor[1]
-        }else if(percentage <= 1){
-            return defaultMeterOverlapColor[2]
+        if let p = percentage{
+            if(p < 0.5){
+                return defaultMeterOverlapColor[0]
+            }else if(p < 0.8){
+                return defaultMeterOverlapColor[1]
+            }else if(p <= 1){
+                return defaultMeterOverlapColor[2]
+            }else{
+                return undefinedCaseColor
+            }
         }else{
             return undefinedCaseColor
         }
+        
     }
 }
 
