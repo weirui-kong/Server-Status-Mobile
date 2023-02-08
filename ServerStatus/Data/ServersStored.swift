@@ -7,19 +7,16 @@
 
 import Foundation
 import SwiftUI
-struct ServersStored: Codable{
-    private enum CodingKeys: String, CodingKey {
-        case APITypes, APIAddresses
-        
-    }
-    var APITypes: [APIType]
-    var APIAddresses: [APIAddress]
-}
-struct APIType: Codable{
-    let name: String
-    let defaultpath: String
-}
+//var SERVER_STORED_DICT: [String : AnyObject]?
+
 struct APIAddress: Codable{
+    let code: String
+    let type: String
     let API: String
-    let name: String
+}
+func loadServersStoredPlist() -> NSArray?{
+    if let path = Bundle.main.path(forResource: "ServersStored", ofType: "plist") {
+        return NSArray(contentsOfFile: path)
+    }
+    return nil
 }

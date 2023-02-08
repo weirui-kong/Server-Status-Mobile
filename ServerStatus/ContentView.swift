@@ -10,22 +10,61 @@ import Alamofire
 import IsScrolling
 let customizedSpringAnimatation: Animation = Animation.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5)
 struct ContentView: View {
+    
+    //@Binding var serversStoredDict: [String : AnyObject]?
     @State private var serverItems: [ServerStatus_Single] = []
     @State private var autoRefresh = false
-    @State private var requestLink = "https://server.onespirit.fyi/json/stats.json"
+    //@State private var requestLink = "https://server.onespirit.fyi/json/stats.json"
     @State private var isScrolling = false
-    @Binding var serversStoredDict: [String : AnyObject]?
+    @State var requestLink: String? = {
+        print("called @State var requestLink")
+        let defaults = UserDefaults.standard
+        if let defaultAPILink_Code = defaults.string(forKey: "DefaultAPILink"){
+            let dict = loadServersStoredPlist()
+            if let loaded_dict = dict{
+                for server in loaded_dict{
+                    if (server as! Dictionary<String, String>)["CODE"] == defaultAPILink_Code{
+                        return (server as! Dictionary<String, String>)["API"]!
+                    }
+                    
+                }
+            }
+        }
+        return nil
+    }()
     var justPopIn = true
     var body: some View {
-        //Text(serversStoredDict?.toJsonString() ?? "")
-        ScrollView{
+#if DEBUG
+        Button("set osp"){
+            let defaults = UserDefaults.standard
+            defaults.set("OSP", forKey: "DefaultAPILink")
+        }
+        Button("clear osp"){
+            let defaults = UserDefaults.standard
+            defaults.removeObject(forKey: "DefaultAPILink")
+            
+        }
+#endif
+        if let _ = requestLink{
+            ScrollView{
 #if os(macOS)
-            serverListView_mac
+                serverListView_mac
 #else
-            serverListView
-                .padding(10)
-#endif  
-        }.onAppear(perform: {startUpdating()})
+                serverListView
+                    .padding(10)
+#endif
+            }.onAppear(perform: {startUpdating()})
+        }else{
+            VStack{
+                Spacer()
+                Text("没有可用服务器\n或读取数据失败")
+                    .foregroundColor(.gray)
+                    .onAppear(){
+                        print(requestLink)
+                    }
+                Spacer()
+            }
+        }
         
     }
     var serverListView_mac: some View{
@@ -58,27 +97,29 @@ struct ContentView: View {
             autoRefresh = true
             DispatchQueue.global().async {
                 while (self.autoRefresh){
-                    
-                    let requestURL = self.requestLink
-                    AF.request(requestURL).response { (response) in
-                        switch response.result{
-                        case.success(let jsonData):
-                            let jsonString = String(decoding: jsonData!, as: UTF8.self)
-                            let serversResponse = try! JSONDecoder().decode(RawServerResponse.self, from: jsonString.data(using: .utf8)!)
-                            if (!self.isScrolling){
-                                withAnimation(customizedSpringAnimatation){
-                                    serverItems = toServerItems(servers: serversResponse.servers)
+                    if let rl = requestLink{
+                        let requestURL = rl
+                        AF.request(rl).response { (response) in
+                            switch response.result{
+                            case.success(let jsonData):
+                                let jsonString = String(decoding: jsonData!, as: UTF8.self)
+                                let serversResponse = try! JSONDecoder().decode(RawServerResponse.self, from: jsonString.data(using: .utf8)!)
+                                if (!self.isScrolling){
+                                    withAnimation(customizedSpringAnimatation){
+                                        serverItems = toServerItems(servers: serversResponse.servers)
+                                    }
+                                    
                                 }
                                 
+                                //print(serversResponse)
+                                break
+                            case.failure(_):
+                                break
                             }
-                            
-                            //print(serversResponse)
-                            break
-                        case.failure(_):
-                            break
                         }
                     }
-                    sleep(2)
+                    
+                    sleep(4)
                 }
                 
             }
