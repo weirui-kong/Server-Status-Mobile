@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct ServerCard: View {
+struct ServerCard: View, Identifiable {
+    var id = UUID()
+    
     @State var detailedMode = false
     @State var arrowAngle: Double = 0
     @Binding var server: ServerStatus_Single
@@ -51,12 +53,9 @@ struct ServerCard: View {
             }.padding(10)
             
         }.frame(
-            //            maxWidth: miniMode ? 150 : 400,
-            //            maxHeight: miniMode ? 300 : (detailedMode ? nil : 210)
-            maxWidth: 400,
             maxHeight: detailedMode ? nil : 210
-            
         )
+        
         .font(.system(size: 16, weight: .bold, design: .rounded))
         .padding(10)
     }
@@ -149,14 +148,19 @@ struct ServerCard: View {
     }
     var arcMeters: some View{
         VStack{
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], alignment: .center, spacing: 20, content: {
-                
+//            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], alignment: .center, spacing: 20, content: {
+//                Meter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu", displayMode: Meter.DisplayMode.arc)
+//                Meter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip", displayMode: Meter.DisplayMode.arc)
+//                Meter(percentage: $server.swap_p, lable: "SWAP", icon: "shuffle", displayMode: Meter.DisplayMode.arc)
+//                Meter(percentage: $server.hdd_p, lable: "DISK", icon: "opticaldiscdrive", displayMode: Meter.DisplayMode.arc)
+//
+//            }).padding(15)
+            HStack{
                 Meter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu", displayMode: Meter.DisplayMode.arc)
                 Meter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip", displayMode: Meter.DisplayMode.arc)
                 Meter(percentage: $server.swap_p, lable: "SWAP", icon: "shuffle", displayMode: Meter.DisplayMode.arc)
                 Meter(percentage: $server.hdd_p, lable: "DISK", icon: "opticaldiscdrive", displayMode: Meter.DisplayMode.arc)
-                
-            }).padding(15)
+            }
         }.foregroundColor(.white)
         
     }

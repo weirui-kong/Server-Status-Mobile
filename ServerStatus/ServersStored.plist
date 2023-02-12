@@ -10,5 +10,21 @@
 		<key>TAG</key>
 		<string>HAROKU</string>
 	</dict>
+	<dict>
+		<key>API</key>
+		<string>https://server.onespirit.fyi/json/stats.json</string>
+		<key>CODE</key>
+		<string>OSP2</string>
+		<key>TAG</key>
+		<string>MIAOKU</string>
+	</dict>
+	<dict>
+		<key>API</key>
+		<string>https://server.onespirit.fyi/json/stats.json</string>
+		<key>CODE</key>
+		<string>OSP3</string>
+		<key>TAG</key>
+		<string>HAROKU</string>
+	</dict>
 </array>
 </plist>

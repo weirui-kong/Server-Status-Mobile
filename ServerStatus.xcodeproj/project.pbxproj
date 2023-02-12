@@ -15,6 +15,7 @@
 		0A22865D29274C7B00CFEC50 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0A22865C29274C7B00CFEC50 /* Alamofire */; };
 		0A729E2B2962E0F8006FA757 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A729E2A2962E0F8006FA757 /* Extensions.swift */; };
 		0A868B792962B004004F6711 /* IsScrolling in Frameworks */ = {isa = PBXBuildFile; productRef = 0A868B782962B004004F6711 /* IsScrolling */; };
+		0AB56E1B2994D3B900DEB133 /* ServerSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB56E1A2994D3B900DEB133 /* ServerSelection.swift */; };
 		0AB88A0029616E3000ED1526 /* ServerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB889FF29616E3000ED1526 /* ServerCard.swift */; };
 		0AB88A0229616E3F00ED1526 /* Meter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0129616E3F00ED1526 /* Meter.swift */; };
 		0AB88A0429616E5200ED1526 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0329616E5200ED1526 /* Regions.swift */; };
@@ -31,6 +32,7 @@
 		0A22864E29271ACA00CFEC50 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A22865729271CF200CFEC50 /* ServerDataStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDataStructure.swift; sourceTree = "<group>"; };
 		0A729E2A2962E0F8006FA757 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0AB56E1A2994D3B900DEB133 /* ServerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelection.swift; sourceTree = "<group>"; };
 		0AB889FF29616E3000ED1526 /* ServerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCard.swift; sourceTree = "<group>"; };
 		0AB88A0129616E3F00ED1526 /* Meter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meter.swift; sourceTree = "<group>"; };
 		0AB88A0329616E5200ED1526 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				0AB889FF29616E3000ED1526 /* ServerCard.swift */,
 				0AB88A0129616E3F00ED1526 /* Meter.swift */,
+				0AB56E1A2994D3B900DEB133 /* ServerSelection.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -193,6 +196,7 @@
 				0AC09DAD298C1E2F0081D7DD /* ServersStored.swift in Sources */,
 				0AB88A0429616E5200ED1526 /* Regions.swift in Sources */,
 				0AB88A0229616E3F00ED1526 /* Meter.swift in Sources */,
+				0AB56E1B2994D3B900DEB133 /* ServerSelection.swift in Sources */,
 				0A22865829271CF200CFEC50 /* ServerDataStructure.swift in Sources */,
 				0A22864929271AC700CFEC50 /* ContentView.swift in Sources */,
 				0A22864729271AC700CFEC50 /* ServerStatusApp.swift in Sources */,
@@ -253,8 +257,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -307,8 +311,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -334,10 +338,10 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.weiruik.ServerStatus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -367,10 +371,10 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.weiruik.ServerStatus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
