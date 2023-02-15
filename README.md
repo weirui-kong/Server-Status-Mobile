@@ -1,6 +1,8 @@
 # Server-Status-Mobile
 Server Status Mobile is a light-weight application providing you with real-time infomation of servers based on APIs of several open source projects.
+
 ![logo](./logo.png)
+
 # Supported Platforms
 - ✅ macOS
 - ✅ iOS
