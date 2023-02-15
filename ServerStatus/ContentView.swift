@@ -15,6 +15,10 @@ struct ContentView: View {
     @State private var autoRefresh = false
     //@State private var requestLink = "https://server.onespirit.fyi/json/stats.json"
     @State private var isScrolling = false
+    //splash app icon
+    @State private var showSplashAppIcon = true
+    @State private var appIconOpacity = 0.7
+    @State private var appIconScale = 1.0
     @State var requestLink: String? = {
         print("Called @State var requestLink")
         let defaults = UserDefaults.standard
@@ -79,7 +83,40 @@ struct ContentView: View {
                 ServerSelection(requestLink: $requestLink, onSet: $onSettings)
                     .transition(.move(edge: .top))
             }
+            //splash icon
             
+            if showSplashAppIcon{
+                VStack{
+                    Image("icon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 280)
+                        .offset(y: 100 - 100 * appIconScale)
+                    //orginal offset: 100 * 1.1^3 = 133
+                        .scaleEffect(appIconScale)
+                        .opacity(appIconOpacity)
+                        .ignoresSafeArea()
+                        .onAppear{
+                            DispatchQueue.global().async {
+                                for _ in 0..<3{
+                                    sleep(1)
+                                    withAnimation(customizedSpringAnimatation){
+                                        appIconOpacity += 0.1
+                                        appIconScale *= 1.1
+                                    }
+                                }
+                                sleep(1)
+                                withAnimation(){
+                                    self.showSplashAppIcon = false
+                                }
+                            }
+                        }
+                }.background(Rectangle().frame(width: 10000,height: 10000).foregroundColor(.white))
+                //frame should use infinity instead
+                    .transition(.opacity)
+                    
+                
+            }
         }
         
     }
@@ -103,9 +140,7 @@ struct ContentView: View {
             ForEach($serverItems, id: \.self.id) { item in
                 ServerCard(server: item)
                     .scrollSensor()
-                
             }
-            
         }.scrollStatusMonitor($isScrolling, monitorMode: .common)
     }
     func startUpdating(){
