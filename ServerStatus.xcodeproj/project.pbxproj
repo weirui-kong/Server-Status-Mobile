@@ -10,10 +10,12 @@
 		0A22864729271AC700CFEC50 /* ServerStatusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22864629271AC700CFEC50 /* ServerStatusApp.swift */; };
 		0A22864929271AC700CFEC50 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22864829271AC700CFEC50 /* ContentView.swift */; };
 		0A22864B29271ACA00CFEC50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A22864A29271ACA00CFEC50 /* Assets.xcassets */; };
-		0A22865829271CF200CFEC50 /* ServerDataStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22865729271CF200CFEC50 /* ServerDataStructure.swift */; };
+		0A22865829271CF200CFEC50 /* UnifiedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22865729271CF200CFEC50 /* UnifiedData.swift */; };
 		0A22865D29274C7B00CFEC50 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0A22865C29274C7B00CFEC50 /* Alamofire */; };
 		0A66CC2229AC73B200DEDCEE /* PipeMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2129AC73B200DEDCEE /* PipeMeter.swift */; };
 		0A66CC2429AC73F400DEDCEE /* MeterStaticConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */; };
+		0A66CC2829ACC34200DEDCEE /* HAROKU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2729ACC34200DEDCEE /* HAROKU.swift */; };
+		0A66CC2C29ACC4C800DEDCEE /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2B29ACC4C800DEDCEE /* Numbers.swift */; };
 		0A729E2B2962E0F8006FA757 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A729E2A2962E0F8006FA757 /* Extensions.swift */; };
 		0A868B792962B004004F6711 /* IsScrolling in Frameworks */ = {isa = PBXBuildFile; productRef = 0A868B782962B004004F6711 /* IsScrolling */; };
 		0A98CD0B299D7CF2002AB222 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CD0A299D7CF2002AB222 /* README.md */; };
@@ -23,7 +25,7 @@
 		0AB88A0229616E3F00ED1526 /* ArcMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0129616E3F00ED1526 /* ArcMeter.swift */; };
 		0AB88A0429616E5200ED1526 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0329616E5200ED1526 /* Regions.swift */; };
 		0AC09DAB298C173A0081D7DD /* ServersStored.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AC09DAA298C173A0081D7DD /* ServersStored.plist */; };
-		0AC09DAD298C1E2F0081D7DD /* ServersStored.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC09DAC298C1E2F0081D7DD /* ServersStored.swift */; };
+		0AC09DAD298C1E2F0081D7DD /* APIStored.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC09DAC298C1E2F0081D7DD /* APIStored.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,9 +34,11 @@
 		0A22864829271AC700CFEC50 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0A22864A29271ACA00CFEC50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A22864C29271ACA00CFEC50 /* ServerStatus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ServerStatus.entitlements; sourceTree = "<group>"; };
-		0A22865729271CF200CFEC50 /* ServerDataStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDataStructure.swift; sourceTree = "<group>"; };
+		0A22865729271CF200CFEC50 /* UnifiedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedData.swift; sourceTree = "<group>"; };
 		0A66CC2129AC73B200DEDCEE /* PipeMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipeMeter.swift; sourceTree = "<group>"; };
 		0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterStaticConfig.swift; sourceTree = "<group>"; };
+		0A66CC2729ACC34200DEDCEE /* HAROKU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAROKU.swift; sourceTree = "<group>"; };
+		0A66CC2B29ACC4C800DEDCEE /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
 		0A729E2A2962E0F8006FA757 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0A98CD0A299D7CF2002AB222 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		0A98CD0C299D7E5A002AB222 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = SOURCE_ROOT; };
@@ -43,7 +47,7 @@
 		0AB88A0129616E3F00ED1526 /* ArcMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcMeter.swift; sourceTree = "<group>"; };
 		0AB88A0329616E5200ED1526 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
 		0AC09DAA298C173A0081D7DD /* ServersStored.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ServersStored.plist; sourceTree = "<group>"; };
-		0AC09DAC298C1E2F0081D7DD /* ServersStored.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersStored.swift; sourceTree = "<group>"; };
+		0AC09DAC298C1E2F0081D7DD /* APIStored.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStored.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +98,7 @@
 		0A22865529271CB100CFEC50 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0A66CC2029AC723300DEDCEE /* Widgets */,
-				0AB889FF29616E3000ED1526 /* ServerCard.swift */,
+				0A66CC2529ACA38E00DEDCEE /* ServerCard */,
 				0AB56E1A2994D3B900DEB133 /* ServerSelection.swift */,
 			);
 			path = Views;
@@ -104,10 +107,12 @@
 		0A22865629271CBD00CFEC50 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				0A22865729271CF200CFEC50 /* ServerDataStructure.swift */,
+				0A66CC2A29ACC46300DEDCEE /* Intelligiblility */,
+				0A66CC2929ACC3CE00DEDCEE /* Persistence */,
+				0A66CC2629ACC2D400DEDCEE /* JSONResponses */,
+				0A22865729271CF200CFEC50 /* UnifiedData.swift */,
 				0AB88A0329616E5200ED1526 /* Regions.swift */,
 				0A729E2A2962E0F8006FA757 /* Extensions.swift */,
-				0AC09DAC298C1E2F0081D7DD /* ServersStored.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -120,6 +125,39 @@
 				0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */,
 			);
 			path = Widgets;
+			sourceTree = "<group>";
+		};
+		0A66CC2529ACA38E00DEDCEE /* ServerCard */ = {
+			isa = PBXGroup;
+			children = (
+				0AB889FF29616E3000ED1526 /* ServerCard.swift */,
+				0A66CC2029AC723300DEDCEE /* Widgets */,
+			);
+			path = ServerCard;
+			sourceTree = "<group>";
+		};
+		0A66CC2629ACC2D400DEDCEE /* JSONResponses */ = {
+			isa = PBXGroup;
+			children = (
+				0A66CC2729ACC34200DEDCEE /* HAROKU.swift */,
+			);
+			path = JSONResponses;
+			sourceTree = "<group>";
+		};
+		0A66CC2929ACC3CE00DEDCEE /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				0AC09DAC298C1E2F0081D7DD /* APIStored.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		0A66CC2A29ACC46300DEDCEE /* Intelligiblility */ = {
+			isa = PBXGroup;
+			children = (
+				0A66CC2B29ACC4C800DEDCEE /* Numbers.swift */,
+			);
+			path = Intelligiblility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,12 +241,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AB88A0029616E3000ED1526 /* ServerCard.swift in Sources */,
+				0A66CC2829ACC34200DEDCEE /* HAROKU.swift in Sources */,
 				0A66CC2429AC73F400DEDCEE /* MeterStaticConfig.swift in Sources */,
-				0AC09DAD298C1E2F0081D7DD /* ServersStored.swift in Sources */,
+				0AC09DAD298C1E2F0081D7DD /* APIStored.swift in Sources */,
 				0AB88A0429616E5200ED1526 /* Regions.swift in Sources */,
 				0AB88A0229616E3F00ED1526 /* ArcMeter.swift in Sources */,
 				0AB56E1B2994D3B900DEB133 /* ServerSelection.swift in Sources */,
-				0A22865829271CF200CFEC50 /* ServerDataStructure.swift in Sources */,
+				0A22865829271CF200CFEC50 /* UnifiedData.swift in Sources */,
+				0A66CC2C29ACC4C800DEDCEE /* Numbers.swift in Sources */,
 				0A22864929271AC700CFEC50 /* ContentView.swift in Sources */,
 				0A66CC2229AC73B200DEDCEE /* PipeMeter.swift in Sources */,
 				0A22864729271AC700CFEC50 /* ServerStatusApp.swift in Sources */,

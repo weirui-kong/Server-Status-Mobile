@@ -11,7 +11,7 @@ struct PipeMeter: View {
     @Binding var percentage: Double?
     let lable: String
     let icon: String
-    var optionalOverlayText: String? = ""
+    @Binding var optionalOverlayText: String? 
     var body: some View {
         HStack{
             HStack{
@@ -51,7 +51,8 @@ struct PipeMeter: View {
 
 struct PipeMeter_Previews: PreviewProvider {
     @State static var p: Double? = 0.3
+    @State static var ot: String?  = "NaN"
     static var previews: some View {
-        PipeMeter(percentage: $p, lable: "CPU", icon: "cpu", optionalOverlayText: "NaN")
+        PipeMeter(percentage: $p, lable: "CPU", icon: "cpu", optionalOverlayText: $ot)
     }
 }

@@ -12,27 +12,17 @@ struct ServerCard: View, Identifiable {
     
     @State var detailedMode = false
     @State var arrowAngle: Double = 0
-    @Binding var server: ServerStatus_Single
+    @Binding var status: UnifiedServerInfomation
     //    var miniMode: Bool{
     //        return (!detailedMode) && UIDevice.isIPhone
     //    }
     var body: some View {
         ZStack{
-            if #available(iOS 16.0, macOS 13.0, *) {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(server.online4 || server.online6
-                          ? Color.blue.opacity(0.65).gradient : Color.gray.gradient)
-                    .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
-                //.animation(customizedSpringAnimatation)
-            } else {
-                // Fallback on earlier versions
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(server.online4 || server.online6
-                          ? Color.blue.opacity(0.65) : Color.gray)
-                    .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
-                //.animation(customizedSpringAnimatation)
-            }
             
+                RoundedRectangle(cornerRadius: 20)
+                .fill(status.isOnline ? Color.blue.opacity(0.65).gradient : Color.gray.gradient)
+                    .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
+          
             //default layout
             VStack{
                 basicInfo
@@ -66,7 +56,7 @@ struct ServerCard: View, Identifiable {
             .background(Circle().foregroundColor(.gray.opacity(detailedMode ? 0.15 : 0)).frame(width: 25, height: 25, alignment: .center))
             .foregroundColor(.white).opacity(detailedMode ? 0.8 : 0.6)
             .onTapGesture {
-                withAnimation(customizedSpringAnimatation){
+                withAnimation(){
                     detailedMode.toggle()
                     if detailedMode{
                         arrowAngle += 180
@@ -78,26 +68,26 @@ struct ServerCard: View, Identifiable {
     }
     var miniModeInfo: some View{
         VStack{
-            Text(Region[server.region] ?? "🇺🇳")
+            Text(Region[status.region ?? "UN"]!)
                 .font(.system(size: 40))
         }
     }
     var basicInfo: some View{
         VStack{
             HStack{
-                Text(Region[server.region] ?? "🇺🇳")
+                Text(Region[status.region ?? "UN"]!)
                     .font(.system(size: detailedMode ? 80 : 50))
                 if(detailedMode){
                     Spacer()
                     VStack{
-                        Text("\(server.name)")
-                        Text("\(server.location)")
+                        Text("\(status.name)")
+                        Text("\(status.location)")
                     }.font(.system(size: 21, weight: .bold, design: .rounded))
                         .minimumScaleFactor(0.5)
                     Spacer()
                 }else{
-                    Text("\(server.name)")
-                    Text("\(server.location)")
+                    Text("\(status.name)")
+                    Text("\(status.location)")
                 }
             }
             
@@ -107,36 +97,35 @@ struct ServerCard: View, Identifiable {
                     HStack{
                         Image(systemName: "arrow.left.and.right.square")
                         Text("IPv4:")
-                        Text(server.online4 ? "ONLINE" : "OFFLINE")
-                            .foregroundColor(server.online4 ? .white : .black.opacity(0.5))
+                        Text(status.online4 ? "ONLINE" : "OFFLINE")
+                            .foregroundColor(status.online4 ? .white : .black.opacity(0.5))
                         Spacer()
                         Image(systemName: "shippingbox")
                         Text("VZ:")
-                        Text(server.type)
+                        Text(status.type)
                         
                     }
                     HStack{
                         
                         Image(systemName: "arrow.left.and.right.square")
                         Text("IPv6:")
-                        Text(server.online6 ? "ONLINE" : "OFFLINE")
-                            .foregroundColor(server.online6 ? .white : .black.opacity(0.5))
+                        Text(status.online6 ? "ONLINE" : "OFFLINE")
+                            .foregroundColor(status.online6 ? .white : .black.opacity(0.5))
                         Spacer()
                         Image(systemName: "network")
                         Text("BW:")
-                        Text(byteToKB_MB_GB(byte: (server.network_in ?? 0) + (server.network_out ?? 0)))
+                        Text(status.network_inout_text ?? "NaN")
                     }
-                    Text("Up Time：\(server.uptime_EN )")
+                    Text("Up Time：\(status.uptime_EN!)")
                         .padding(1)
-                        .id("uptime")
                     //Network capsule
                     ZStack{
                         HStack{
                             Image(systemName: "tray.and.arrow.down")
-                            Text(server.network_rx_text + "/s")
+                            Text(status.network_rx_text ?? "0" + "/s")
                             Spacer()
                             
-                            Text(server.network_tx_text + "/s")
+                            Text(status.network_tx_text ?? "0" + "/s")
                             Image(systemName: "tray.and.arrow.up")
                         }
                         Image(systemName: "arrow.up.arrow.down.circle")
@@ -148,40 +137,33 @@ struct ServerCard: View, Identifiable {
     }
     var arcMeters: some View{
         VStack{
-            //            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], alignment: .center, spacing: 20, content: {
-            //                Meter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu", displayMode: Meter.DisplayMode.arc)
-            //                Meter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip", displayMode: Meter.DisplayMode.arc)
-            //                Meter(percentage: $server.swap_p, lable: "SWAP", icon: "shuffle", displayMode: Meter.DisplayMode.arc)
-            //                Meter(percentage: $server.hdd_p, lable: "DISK", icon: "opticaldiscdrive", displayMode: Meter.DisplayMode.arc)
-            //
-            //            }).padding(15)
             HStack{
-                ArcMeter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu")
-                ArcMeter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip")
-                ArcMeter(percentage: $server.swap_p, lable: "SWAP", icon: "shuffle")
-                ArcMeter(percentage: $server.hdd_p, lable: "DISK", icon: "opticaldiscdrive")
+                ArcMeter(percentage: $status.cpu_p, lable: "CPU", icon: "cpu")
+                ArcMeter(percentage: $status.memory_p, lable: "MEM", icon: "memorychip")
+                ArcMeter(percentage: $status.swap_p, lable: "SWAP", icon: "shuffle")
+                ArcMeter(percentage: $status.hdd_p, lable: "DISK", icon: "opticaldiscdrive")
             }
-        }.foregroundColor(.white)
+        }
         
     }
     var pipeMeters: some View{
         VStack{
-            PipeMeter(percentage: $server.cpu_p,
+            PipeMeter(percentage: $status.cpu_p,
                       lable: "CPU",
                       icon: "cpu",
-                      optionalOverlayText: "\(server.cpu ?? 0)%")
-            PipeMeter(percentage: $server.memory_p,
+                      optionalOverlayText: $status.cpu_text)
+            PipeMeter(percentage: $status.memory_p,
                       lable: "MEM",
                       icon: "memorychip",
-                      optionalOverlayText: server.memory_text)
-            PipeMeter(percentage: $server.swap_p,
+                      optionalOverlayText: $status.memory_text )
+            PipeMeter(percentage: $status.swap_p,
                       lable: "SWP",
                       icon: "shuffle",
-                      optionalOverlayText: server.swap_text)
-            PipeMeter(percentage: $server.hdd_p,
+                      optionalOverlayText: $status.swap_text)
+            PipeMeter(percentage: $status.hdd_p,
                       lable: "DISK",
                       icon: "opticaldiscdrive",
-                      optionalOverlayText: server.hdd_text)
+                      optionalOverlayText: $status.hdd_text)
             
         }.foregroundColor(.white)
     }

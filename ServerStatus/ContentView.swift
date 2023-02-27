@@ -11,78 +11,88 @@ import IsScrolling
 let customizedSpringAnimatation: Animation = Animation.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5)
 struct ContentView: View {
     //@Binding var serversStoredDict: [String : AnyObject]?
-    @State private var serverItems: [ServerStatus_Single] = []
+    @StateObject var serverList = UnifiedServerInfomationList()
     @State private var autoRefresh = false
     //@State private var requestLink = "https://server.onespirit.fyi/json/stats.json"
     @State private var isScrolling = false
     //splash app icon
-    @State private var showSplashAppIcon = true
+    @State private var showSplashAppIcon = false
     @State private var appIconOpacity = 0.7
     @State private var appIconScale = 1.0
-    @State var requestLink: String? = {
-        print("Called @State var requestLink")
+    @State private var queryJSONFail = false
+    @State var requestLink: (String?, APITypes?, String?) = {
+        //print("Called @State var requestLink")
         let defaults = UserDefaults.standard
         if let defaultAPILink_Code = defaults.string(forKey: "DefaultAPILink"){
             let dict = loadServersStoredPlist()
             if let loaded_dict = dict{
                 for server in loaded_dict{
                     if (server as! Dictionary<String, String>)["CODE"] == defaultAPILink_Code{
-                        return (server as! Dictionary<String, String>)["API"]!
+                        //amendments needed
+                        return (
+                            (server as! Dictionary<String, String>)["API"]!,
+                            APITypes(rawValue: (server as! Dictionary<String, String>)["TAG"]!),
+                            (server as! Dictionary<String, String>)["CODE"]!
+                        )
                     }
                 }
             }
         }
-        return nil
+        return (nil, nil, nil)
     }()
     @State var onSettings = false
     var body: some View {
         ZStack{
-            //main layer
-            VStack{
+            //main layer and splash layer must be written in the same level of branch
+            if !showSplashAppIcon{
+                //main layer
+                VStack{
 #if DEBUG
-                HStack{
-                    Button("set osp"){
-                        let defaults = UserDefaults.standard
-                        defaults.set("OSP", forKey: "DefaultAPILink")
-                    }
-                    Button("clear osp"){
-                        let defaults = UserDefaults.standard
-                        defaults.removeObject(forKey: "DefaultAPILink")
-                    }
-                    Button("server selection"){
-                        withAnimation(customizedSpringAnimatation){
-                            onSettings = true
+                    HStack{
+                        Button("set osp"){
+                            let defaults = UserDefaults.standard
+                            defaults.set("OSP", forKey: "DefaultAPILink")
+                        }
+                        Button("clear osp"){
+                            let defaults = UserDefaults.standard
+                            defaults.removeObject(forKey: "DefaultAPILink")
+                        }
+                        Button("server selection"){
+                            withAnimation(customizedSpringAnimatation){
+                                onSettings = true
+                            }
+                        }
+                        Button("print status"){
+                            print(serverList.list)
                         }
                     }
-                }
 #endif
-                if let _ = requestLink{
-                    ScrollView{
+                    if !queryJSONFail{
+                        ScrollView{
 #if os(macOS)
-                        serverListView_mac
+                            serverListView_mac
 #else
-                        serverListView
-                            .padding(10)
+                            serverListView
+                                .padding(10)
 #endif
-                    }.onAppear(perform: {startUpdating()})
-                }else{
-                    VStack{
-                        Spacer()
-                        Text("没有可用服务器\n或读取数据失败")
-                            .foregroundColor(.gray)
-                        Spacer()
+                        }.onAppear(perform: {startUpdating()})
+                    }else{
+                        VStack{
+                            Spacer()
+                            Text("读取数据失败")
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
                     }
+                }.blur(radius: onSettings ? 15 : 0)
+                //settings layer
+                if onSettings{
+                    ServerSelection(requestLink: $requestLink, onSet: $onSettings)
+                        .transition(.move(edge: .top))
                 }
-            }.blur(radius: onSettings ? 15 : 0)
-            
-            //settings layer
-            if onSettings{
-                ServerSelection(requestLink: $requestLink, onSet: $onSettings)
-                    .transition(.move(edge: .top))
-            }
-            //splash icon
-            
-            if showSplashAppIcon{
+                
+            }else{
+                //splash icon
                 VStack{
                     Image("icon")
                         .resizable()
@@ -111,19 +121,14 @@ struct ContentView: View {
                 }.background(Rectangle().frame(width: 10000,height: 10000).foregroundColor(.white))
                 //frame should use infinity instead
                     .transition(.opacity)
-                    
-                
             }
         }
-        
     }
     var serverListView_mac: some View{
         VStack{
-            LazyVGrid(columns: [GridItem(.adaptive(
-                minimum: 360 * 1, maximum: 450 * 1
-            ))], alignment: .center, spacing: 10 * 1){
-                ForEach($serverItems, id: \.self.id) { item in
-                    ServerCard(server: item)
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 360 * 1, maximum: 450 * 1))], alignment: .center, spacing: 10 * 1){
+                ForEach(Array($serverList.list.values)) { item in
+                    ServerCard(status: item)
                         .scrollSensor()
                 }
             }.scrollStatusMonitor($isScrolling, monitorMode: .common)
@@ -131,11 +136,9 @@ struct ContentView: View {
         }
     }
     var serverListView: some View{
-        LazyVGrid(columns: [GridItem(.adaptive(
-            minimum: 360, maximum: 400
-        ))], alignment: .center, spacing: 10){
-            ForEach($serverItems, id: \.self.id) { item in
-                ServerCard(server: item)
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 360, maximum: 400))], alignment: .center, spacing: 10){
+            ForEach(Array($serverList.list.values)) { item in
+                ServerCard(status: item)
                     .scrollSensor()
             }
         }.scrollStatusMonitor($isScrolling, monitorMode: .common)
@@ -145,31 +148,34 @@ struct ContentView: View {
             autoRefresh = true
             DispatchQueue.global().async {
                 while (self.autoRefresh){
-                    if let rl = requestLink{
+                    if let rl = requestLink.0{
                         AF.request(rl).response { (response) in
                             switch response.result{
                             case.success(let jsonData):
                                 let jsonString = String(decoding: jsonData!, as: UTF8.self)
-                                let serversResponse = try! JSONDecoder().decode(RawServerResponse.self, from: jsonString.data(using: .utf8)!)
                                 if (!self.isScrolling){
-                                    withAnimation(customizedSpringAnimatation){
-                                        serverItems = toServerItems(servers: serversResponse.servers)
-                                    }
+                                    //withAnimation(customizedSpringAnimatation){
+                                        serverList.updateList(jsonString: jsonString, apiType: requestLink.1)
+                                        //print(jsonString)
+                                    //}
+                                }
+                                withAnimation(){
+                                    queryJSONFail = false
                                 }
                                 break
                             case.failure(_):
+                                withAnimation(){
+                                    queryJSONFail = true
+                                }
                                 break
                             }
                         }
                     }
                     sleep(2)
                 }
-                
             }
         }
     }
-    
-    
 }
 
 //struct ContentView_Previews: PreviewProvider {

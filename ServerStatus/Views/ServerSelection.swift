@@ -14,7 +14,7 @@ struct ServerItem: Identifiable{
 }
 
 struct ServerSelection: View {
-    init(requestLink: Binding<String?>, onSet: Binding<Bool>){
+    init(requestLink: Binding<(String?, APITypes?, String?)>, onSet: Binding<Bool>){
         self._requestLink = requestLink
         self._onSettings = onSet
         let dict = loadServersStoredPlist()
@@ -28,10 +28,10 @@ struct ServerSelection: View {
         }
         self.serverItems = serverItems
     }
-    @Binding var requestLink: String?
+    @Binding var requestLink: (String?, APITypes?, String?)
     @Binding var onSettings: Bool
     @State var serverItems: [ServerItem]
-    
+    //selecttion function needed
     var body: some View {
         ZStack{
             
@@ -71,10 +71,10 @@ struct ServerSelection: View {
     }
 }
 
-struct ServerSelection_Previews: PreviewProvider {
-    @State static var requestLink:String? = "https://server.onespirit.fyi/json/stats.json"
-    @State static var onSet:Bool = true
-    static var previews: some View {
-        ServerSelection(requestLink: $requestLink, onSet: $onSet)
-    }
-}
+//struct ServerSelection_Previews: PreviewProvider {
+//    @State static var requestLink:String? = "https://server.onespirit.fyi/json/stats.json"
+//    @State static var onSet:Bool = true
+//    static var previews: some View {
+//        ServerSelection(requestLink: $requestLink, onSet: $onSet)
+//    }
+//}

@@ -19,7 +19,7 @@ struct ArcMeter: View {
                     .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round, lineJoin: .round))
                     .foregroundColor(castResponsiveMeterColor(percent: percentage))
                 
-            }.frame(maxWidth: meterMaxWidth)
+            }
             
             //label
             VStack{
@@ -28,7 +28,8 @@ struct ArcMeter: View {
                     .offset(y:5)
                 Text(lable)
             }
-        }
+        }.foregroundColor(.white)
+            .frame(maxWidth: meterMaxWidth)
     }
     
     func calcTrimFromPercentage() -> CGFloat{
