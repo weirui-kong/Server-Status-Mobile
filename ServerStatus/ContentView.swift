@@ -55,18 +55,15 @@ struct ContentView: View {
                         }
                     }
                 }
-                
 #endif
                 if let _ = requestLink{
                     ScrollView{
-                        
 #if os(macOS)
                         serverListView_mac
 #else
                         serverListView
                             .padding(10)
 #endif
-                        
                     }.onAppear(perform: {startUpdating()})
                 }else{
                     VStack{

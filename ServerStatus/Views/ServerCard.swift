@@ -148,44 +148,40 @@ struct ServerCard: View, Identifiable {
     }
     var arcMeters: some View{
         VStack{
-//            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], alignment: .center, spacing: 20, content: {
-//                Meter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu", displayMode: Meter.DisplayMode.arc)
-//                Meter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip", displayMode: Meter.DisplayMode.arc)
-//                Meter(percentage: $server.swap_p, lable: "SWAP", icon: "shuffle", displayMode: Meter.DisplayMode.arc)
-//                Meter(percentage: $server.hdd_p, lable: "DISK", icon: "opticaldiscdrive", displayMode: Meter.DisplayMode.arc)
-//
-//            }).padding(15)
+            //            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], alignment: .center, spacing: 20, content: {
+            //                Meter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu", displayMode: Meter.DisplayMode.arc)
+            //                Meter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip", displayMode: Meter.DisplayMode.arc)
+            //                Meter(percentage: $server.swap_p, lable: "SWAP", icon: "shuffle", displayMode: Meter.DisplayMode.arc)
+            //                Meter(percentage: $server.hdd_p, lable: "DISK", icon: "opticaldiscdrive", displayMode: Meter.DisplayMode.arc)
+            //
+            //            }).padding(15)
             HStack{
-                Meter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu", displayMode: Meter.DisplayMode.arc)
-                Meter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip", displayMode: Meter.DisplayMode.arc)
-                Meter(percentage: $server.swap_p, lable: "SWAP", icon: "shuffle", displayMode: Meter.DisplayMode.arc)
-                Meter(percentage: $server.hdd_p, lable: "DISK", icon: "opticaldiscdrive", displayMode: Meter.DisplayMode.arc)
+                ArcMeter(percentage: $server.cpu_p, lable: "CPU", icon: "cpu")
+                ArcMeter(percentage: $server.memory_p, lable: "MEM", icon: "memorychip")
+                ArcMeter(percentage: $server.swap_p, lable: "SWAP", icon: "shuffle")
+                ArcMeter(percentage: $server.hdd_p, lable: "DISK", icon: "opticaldiscdrive")
             }
         }.foregroundColor(.white)
         
     }
     var pipeMeters: some View{
         VStack{
-            Meter(percentage: $server.cpu_p,
-                  lable: "CPU",
-                  icon: "cpu",
-                  displayMode: Meter.DisplayMode.line,
-                  optionalValue: "\(server.cpu ?? 0)%")
-            Meter(percentage: $server.memory_p,
-                  lable: "MEM",
-                  icon: "memorychip",
-                  displayMode: Meter.DisplayMode.line,
-                  optionalValue: server.memory_text)
-            Meter(percentage: $server.swap_p,
-                  lable: "SWP",
-                  icon: "shuffle",
-                  displayMode: Meter.DisplayMode.line,
-                  optionalValue: server.swap_text)
-            Meter(percentage: $server.hdd_p,
-                  lable: "DISK",
-                  icon: "opticaldiscdrive",
-                  displayMode: Meter.DisplayMode.line,
-                  optionalValue: server.hdd_text)
+            PipeMeter(percentage: $server.cpu_p,
+                      lable: "CPU",
+                      icon: "cpu",
+                      optionalOverlayText: "\(server.cpu ?? 0)%")
+            PipeMeter(percentage: $server.memory_p,
+                      lable: "MEM",
+                      icon: "memorychip",
+                      optionalOverlayText: server.memory_text)
+            PipeMeter(percentage: $server.swap_p,
+                      lable: "SWP",
+                      icon: "shuffle",
+                      optionalOverlayText: server.swap_text)
+            PipeMeter(percentage: $server.hdd_p,
+                      lable: "DISK",
+                      icon: "opticaldiscdrive",
+                      optionalOverlayText: server.hdd_text)
             
         }.foregroundColor(.white)
     }

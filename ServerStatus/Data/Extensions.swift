@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 //extension UIDevice {
 //    static var isIPad: Bool {
@@ -31,3 +32,4 @@ extension Dictionary {
     }
     
 }
+
