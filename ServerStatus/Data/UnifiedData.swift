@@ -140,18 +140,17 @@ struct UnifiedServerInfomation: Identifiable {
 
 class UnifiedServerInfomationList: ObservableObject{
     @Published public var list: [String : UnifiedServerInfomation] = [:]
-    func updateList(jsonString: String, apiType: APITypes?){
+    func updateList(jsonString: String, apiType: APITypes?, queryFail: inout QueryFailTypes?){
         switch(apiType){
         case .HAROKU:
             updateUnifiedServerInfomationList_HAROKU(jsonString: jsonString, list: &list)
         default:
             break
-            
         }
-        
-        
+        if list.isEmpty{
+            queryFail = .noActiveSevers
+        }
     }
-    
 }
 
 

@@ -14,8 +14,8 @@ struct ServerItem: Identifiable{
 }
 
 struct ServerSelection: View {
-    init(requestLink: Binding<(String?, APITypes?, String?)>, onSet: Binding<Bool>){
-        self._requestLink = requestLink
+    init(onSet: Binding<Bool>){
+        //self._requestLink = requestLink
         self._onSettings = onSet
         let dict = loadServersStoredPlist()
         var serverItems: [ServerItem] = []
@@ -23,48 +23,53 @@ struct ServerSelection: View {
             for server in loaded_dict{
                 let sd = server as! Dictionary<String, String>
                 serverItems.append(ServerItem(api: sd["API"]!, code: sd["CODE"]!, tag: sd["TAG"]!, id: sd["CODE"]!))
-                
             }
         }
         self.serverItems = serverItems
     }
-    @Binding var requestLink: (String?, APITypes?, String?)
+    //@Binding var requestLink: (String?, APITypes?, String?)
     @Binding var onSettings: Bool
     @State var serverItems: [ServerItem]
     //selecttion function needed
     var body: some View {
         ZStack{
-            
+            //blur bg
+            Rectangle()
+                .foregroundColor(.gray.opacity(0.1))
+                .ignoresSafeArea()
+                //.transition(.opacity)
             //list layer
-            
             List(){
                 ForEach(serverItems) { item in
                     VStack(alignment: .leading){
-                        Section(header: Text(item.code).font(.title3)){
+                        Section(header: Text("\(item.code) - \(item.tag)").font(.title3)){
                             ScrollView(.horizontal){
                                 Text(item.api)
                             }
-                            
                         }
-                        
-                    }//.background(Color.white.opacity(0.5))
+                    }.onTapGesture {
+                        withAnimation(){
+                            UserDefaults.standard.set(item.code, forKey: "DefaultAPILink")
+                            onSettings.toggle()
+                        }
+                    }
                 }
             }.scrollContentBackground(.hidden)
+                .frame(maxWidth: 800)//in case unexpected width on ipad
+                .shadow(radius: 2)
+                //.transition(.slide)
                 
-            
-            
 #if DEBUG
             HStack{
                 Button("print"){
                     print(serverItems)
                 }
                 Button("close"){
-                    withAnimation(customizedSpringAnimatation){
+                    withAnimation(){
                         onSettings = false
                     }
                 }
-            }
-            
+            } 
 #endif
         }
         

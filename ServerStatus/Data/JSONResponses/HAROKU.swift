@@ -116,9 +116,9 @@ class RawServerResponse_HAROKU: Codable {
         case 1024..<1024*1024:
             return String(format: "%.1fKB", Double(B)/1024)
         case 1024*1024..<1024*1024*1024:
-            return String(format: "%.1fMB", Double(B)/1024/1024)
+            return String(format: "%.1fMB", Double(B)/(1024*1024))
         case 1024*1024*1024..<1024*1024*1024*1024:
-            return String(format: "%.1fGB", Double(B)/1024/1024/1024)
+            return String(format: "%.1fGB", Double(B)/(1024*1024*1024))
         default:
             return "OVERFLOW"
         }
@@ -132,12 +132,14 @@ struct RawServerResponses_HAROKU: Codable{
 }
 
 func updateUnifiedServerInfomationList_HAROKU(jsonString: String, list: inout [String : UnifiedServerInfomation]){
-    let serversResponses = try! JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8)!) as! RawServerResponses_HAROKU
+    //let serversResponses = try? JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8) ?? Data())
     withAnimation(customizedSpringAnimatation){
-        for server in serversResponses.servers{
-            
-            list[server.name + server.location] = server.toUnifiedServerInfomation()
-            //id
+        if let serversResponses = try? JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8) ?? Data()){
+            for server in serversResponses.servers{
+                list[server.name + server.location] = server.toUnifiedServerInfomation()
+                //id
+            }
         }
+        
     }
 }

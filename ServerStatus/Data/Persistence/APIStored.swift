@@ -14,6 +14,7 @@ struct APIAddress: Codable{
     let type: String
     let API: String
 }
+
 func loadServersStoredPlist() -> NSArray?{
     if let path = Bundle.main.path(forResource: "ServersStored", ofType: "plist") {
         return NSArray(contentsOfFile: path)

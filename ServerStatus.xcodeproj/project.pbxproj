@@ -89,7 +89,6 @@
 				0A22864A29271ACA00CFEC50 /* Assets.xcassets */,
 				0A22864C29271ACA00CFEC50 /* ServerStatus.entitlements */,
 				0A98CD0C299D7E5A002AB222 /* logo.png */,
-				0AC09DAA298C173A0081D7DD /* ServersStored.plist */,
 				0A98CD0A299D7CF2002AB222 /* README.md */,
 			);
 			path = ServerStatus;
@@ -120,9 +119,7 @@
 		0A66CC2029AC723300DEDCEE /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				0AB88A0129616E3F00ED1526 /* ArcMeter.swift */,
-				0A66CC2129AC73B200DEDCEE /* PipeMeter.swift */,
-				0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */,
+				0A66CC2F29AD9EFA00DEDCEE /* Metas */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -147,6 +144,7 @@
 		0A66CC2929ACC3CE00DEDCEE /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
+				0AC09DAA298C173A0081D7DD /* ServersStored.plist */,
 				0AC09DAC298C1E2F0081D7DD /* APIStored.swift */,
 			);
 			path = Persistence;
@@ -158,6 +156,16 @@
 				0A66CC2B29ACC4C800DEDCEE /* Numbers.swift */,
 			);
 			path = Intelligiblility;
+			sourceTree = "<group>";
+		};
+		0A66CC2F29AD9EFA00DEDCEE /* Metas */ = {
+			isa = PBXGroup;
+			children = (
+				0AB88A0129616E3F00ED1526 /* ArcMeter.swift */,
+				0A66CC2129AC73B200DEDCEE /* PipeMeter.swift */,
+				0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */,
+			);
+			path = Metas;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

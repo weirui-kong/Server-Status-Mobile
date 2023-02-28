@@ -9,6 +9,12 @@ import SwiftUI
 import Alamofire
 import IsScrolling
 let customizedSpringAnimatation: Animation = Animation.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5)
+enum QueryFailTypes: String{
+    case networkIssue = "Network Issue"
+    case noAvaliableJSON = "No Avaliable JSON Provided"
+    case noActiveSevers = "No Server is Running"
+    case apiTypeNotSupported = "API Type Not Supported"
+}
 struct ContentView: View {
     //@Binding var serversStoredDict: [String : AnyObject]?
     @StateObject var serverList = UnifiedServerInfomationList()
@@ -19,28 +25,9 @@ struct ContentView: View {
     @State private var showSplashAppIcon = false
     @State private var appIconOpacity = 0.7
     @State private var appIconScale = 1.0
-    @State private var queryJSONFail = false
-    @State var requestLink: (String?, APITypes?, String?) = {
-        //print("Called @State var requestLink")
-        let defaults = UserDefaults.standard
-        if let defaultAPILink_Code = defaults.string(forKey: "DefaultAPILink"){
-            let dict = loadServersStoredPlist()
-            if let loaded_dict = dict{
-                for server in loaded_dict{
-                    if (server as! Dictionary<String, String>)["CODE"] == defaultAPILink_Code{
-                        //amendments needed
-                        return (
-                            (server as! Dictionary<String, String>)["API"]!,
-                            APITypes(rawValue: (server as! Dictionary<String, String>)["TAG"]!),
-                            (server as! Dictionary<String, String>)["CODE"]!
-                        )
-                    }
-                }
-            }
-        }
-        return (nil, nil, nil)
-    }()
+    @State var queryJSONFail: QueryFailTypes?
     @State var onSettings = false
+ 
     var body: some View {
         ZStack{
             //main layer and splash layer must be written in the same level of branch
@@ -58,16 +45,19 @@ struct ContentView: View {
                             defaults.removeObject(forKey: "DefaultAPILink")
                         }
                         Button("server selection"){
-                            withAnimation(customizedSpringAnimatation){
+                            withAnimation(){
                                 onSettings = true
                             }
                         }
                         Button("print status"){
                             print(serverList.list)
+                            print(queryJSONFail)
+                            //print(readAPIInfoFromUserDefault())
                         }
+                        Text("default:\(UserDefaults.standard.string(forKey: "DefaultAPILink") ?? String("nil"))")
                     }
 #endif
-                    if !queryJSONFail{
+                    if queryJSONFail == nil{
                         ScrollView{
 #if os(macOS)
                             serverListView_mac
@@ -75,20 +65,31 @@ struct ContentView: View {
                             serverListView
                                 .padding(10)
 #endif
-                        }.onAppear(perform: {startUpdating()})
+                        }
                     }else{
                         VStack{
                             Spacer()
-                            Text("读取数据失败")
-                                .foregroundColor(.gray)
+                            switch(queryJSONFail){
+                            case .networkIssue:
+                                Text("Network Unreachable")
+                            case .noAvaliableJSON:
+                                Text("No JSON Avaliable")
+                            case .apiTypeNotSupported:
+                                Text("API Not Suported")
+                            case .noActiveSevers:
+                                Text("No Server is Running")
+                            default:
+                                Text("Unknown Error")
+                            }
                             Spacer()
-                        }
+                        }.foregroundColor(.gray)
                     }
                 }.blur(radius: onSettings ? 15 : 0)
+                    .onAppear(perform: {startUpdating()})
                 //settings layer
                 if onSettings{
-                    ServerSelection(requestLink: $requestLink, onSet: $onSettings)
-                        .transition(.move(edge: .top))
+                    ServerSelection(onSet: $onSettings.animation())
+                    //.transition(.move(edge: .top))
                 }
                 
             }else{
@@ -143,30 +144,52 @@ struct ContentView: View {
             }
         }.scrollStatusMonitor($isScrolling, monitorMode: .common)
     }
+    func readAPIInfoFromUserDefault() -> (String?, APITypes?, String?){
+            //print("Called @State var requestLink")
+            let defaults = UserDefaults.standard
+            if let defaultAPILink_Code = defaults.string(forKey: "DefaultAPILink"){
+                let dict = loadServersStoredPlist()
+                if let loaded_dict = dict{
+                    for server in loaded_dict{
+                        if (server as! Dictionary<String, String>)["CODE"] == defaultAPILink_Code{
+                            //amendments needed
+                            if let _ = (server as! Dictionary<String, String>)["TAG"]{
+                                queryJSONFail = nil
+                                return (
+                                    (server as! Dictionary<String, String>)["API"],
+                                    APITypes(rawValue: (server as! Dictionary<String, String>)["TAG"]!),
+                                    (server as! Dictionary<String, String>)["CODE"]
+                                )
+                            }else{
+                                queryJSONFail = .apiTypeNotSupported
+                                return(nil, nil, nil)
+                            }
+                        }
+                    }
+                    //If no returns have been made, it means there is no api address that confroms the given code
+                    queryJSONFail = .noAvaliableJSON
+                }
+            }
+            return (nil, nil, nil)
+    }
     func startUpdating(){
         if !autoRefresh{
             autoRefresh = true
             DispatchQueue.global().async {
                 while (self.autoRefresh){
-                    if let rl = requestLink.0{
+                    let apiInfo = readAPIInfoFromUserDefault()
+                    if let rl = apiInfo.0{
                         AF.request(rl).response { (response) in
                             switch response.result{
                             case.success(let jsonData):
                                 let jsonString = String(decoding: jsonData!, as: UTF8.self)
                                 if (!self.isScrolling){
-                                    //withAnimation(customizedSpringAnimatation){
-                                        serverList.updateList(jsonString: jsonString, apiType: requestLink.1)
-                                        //print(jsonString)
-                                    //}
+                                    serverList.updateList(jsonString: jsonString, apiType: apiInfo.1, queryFail: &queryJSONFail)
                                 }
-                                withAnimation(){
-                                    queryJSONFail = false
-                                }
+                                queryJSONFail = nil
                                 break
                             case.failure(_):
-                                withAnimation(){
-                                    queryJSONFail = true
-                                }
+                                queryJSONFail = .networkIssue
                                 break
                             }
                         }

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 enum DisplayMode{
     case arc
-    case line
+    case pipe
 }
 enum DefaultResponsiveMeterColor{
     case low, medium, high
