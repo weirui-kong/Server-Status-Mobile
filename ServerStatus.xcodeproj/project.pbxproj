@@ -26,6 +26,8 @@
 		0AB88A0429616E5200ED1526 /* Regions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB88A0329616E5200ED1526 /* Regions.swift */; };
 		0AC09DAB298C173A0081D7DD /* ServersStored.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0AC09DAA298C173A0081D7DD /* ServersStored.plist */; };
 		0AC09DAD298C1E2F0081D7DD /* APIStored.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC09DAC298C1E2F0081D7DD /* APIStored.swift */; };
+		0ACE5ED529C31E8A0027EE8F /* TransparentPopoverBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE5ED429C31E8A0027EE8F /* TransparentPopoverBackgroundView.swift */; };
+		0ACE5ED729C31EBB0027EE8F /* PopoverBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE5ED629C31EBB0027EE8F /* PopoverBackgroundView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,8 @@
 		0AB88A0329616E5200ED1526 /* Regions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regions.swift; sourceTree = "<group>"; };
 		0AC09DAA298C173A0081D7DD /* ServersStored.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ServersStored.plist; sourceTree = "<group>"; };
 		0AC09DAC298C1E2F0081D7DD /* APIStored.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIStored.swift; sourceTree = "<group>"; };
+		0ACE5ED429C31E8A0027EE8F /* TransparentPopoverBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentPopoverBackgroundView.swift; sourceTree = "<group>"; };
+		0ACE5ED629C31EBB0027EE8F /* PopoverBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverBackgroundView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,7 @@
 		0A22865529271CB100CFEC50 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0ACE5ED329C31E620027EE8F /* View Utils */,
 				0A66CC2529ACA38E00DEDCEE /* ServerCard */,
 				0AB56E1A2994D3B900DEB133 /* ServerSelection.swift */,
 			);
@@ -166,6 +171,23 @@
 				0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */,
 			);
 			path = Metas;
+			sourceTree = "<group>";
+		};
+		0ACE5ED329C31E620027EE8F /* View Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0ACE5ED829C31EC90027EE8F /* Popver */,
+			);
+			path = "View Utils";
+			sourceTree = "<group>";
+		};
+		0ACE5ED829C31EC90027EE8F /* Popver */ = {
+			isa = PBXGroup;
+			children = (
+				0ACE5ED429C31E8A0027EE8F /* TransparentPopoverBackgroundView.swift */,
+				0ACE5ED629C31EBB0027EE8F /* PopoverBackgroundView.swift */,
+			);
+			path = Popver;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +279,8 @@
 				0AB56E1B2994D3B900DEB133 /* ServerSelection.swift in Sources */,
 				0A22865829271CF200CFEC50 /* UnifiedData.swift in Sources */,
 				0A66CC2C29ACC4C800DEDCEE /* Numbers.swift in Sources */,
+				0ACE5ED729C31EBB0027EE8F /* PopoverBackgroundView.swift in Sources */,
+				0ACE5ED529C31E8A0027EE8F /* TransparentPopoverBackgroundView.swift in Sources */,
 				0A22864929271AC700CFEC50 /* ContentView.swift in Sources */,
 				0A66CC2229AC73B200DEDCEE /* PipeMeter.swift in Sources */,
 				0A22864729271AC700CFEC50 /* ServerStatusApp.swift in Sources */,

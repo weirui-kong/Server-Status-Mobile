@@ -154,20 +154,26 @@ struct ContentView: View {
                         if (server as! Dictionary<String, String>)["CODE"] == defaultAPILink_Code{
                             //amendments needed
                             if let _ = (server as! Dictionary<String, String>)["TAG"]{
-                                queryJSONFail = nil
+                                withAnimation(.easeInOut){
+                                    queryJSONFail = nil
+                                }
                                 return (
                                     (server as! Dictionary<String, String>)["API"],
                                     APITypes(rawValue: (server as! Dictionary<String, String>)["TAG"]!),
                                     (server as! Dictionary<String, String>)["CODE"]
                                 )
                             }else{
-                                queryJSONFail = .apiTypeNotSupported
+                                withAnimation(.easeInOut){
+                                    queryJSONFail = .apiTypeNotSupported
+                                }
                                 return(nil, nil, nil)
                             }
                         }
                     }
                     //If no returns have been made, it means there is no api address that confroms the given code
-                    queryJSONFail = .noAvaliableJSON
+                    withAnimation(.easeInOut){
+                        queryJSONFail = .noAvaliableJSON
+                    }
                 }
             }
             return (nil, nil, nil)
@@ -186,10 +192,15 @@ struct ContentView: View {
                                 if (!self.isScrolling){
                                     serverList.updateList(jsonString: jsonString, apiType: apiInfo.1, queryFail: &queryJSONFail)
                                 }
-                                queryJSONFail = nil
+                                withAnimation(.easeInOut){
+                                    queryJSONFail = nil
+                                }
+                                
                                 break
                             case.failure(_):
-                                queryJSONFail = .networkIssue
+                                withAnimation(.easeInOut){
+                                    queryJSONFail = .networkIssue
+                                }
                                 break
                             }
                         }

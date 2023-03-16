@@ -11,13 +11,17 @@ struct PipeMeter: View {
     @Binding var percentage: Double?
     let lable: String
     let icon: String
-    @Binding var optionalOverlayText: String? 
+    @Binding var optionalOverlayText: String?
+    @State var showPipeOnly: Bool = false
     var body: some View {
         HStack{
-            HStack{
-                Image(systemName: icon)
-                Text(lable)
-            }.frame(width: 80, height: 30, alignment: .center)
+            if !showPipeOnly{
+                HStack{
+                    Image(systemName: icon)
+                    Text(lable)
+                }.frame(width: 80, height: 30, alignment: .center)
+            }
+            
             GeometryReader{reader in
                 ZStack{
                     RoundedRectangle(cornerRadius: 10)

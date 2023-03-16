@@ -138,10 +138,10 @@ struct ServerCard: View, Identifiable {
     var arcMeters: some View{
         VStack{
             HStack{
-                ArcMeter(percentage: $status.cpu_p, lable: "CPU", icon: "cpu")
-                ArcMeter(percentage: $status.memory_p, lable: "MEM", icon: "memorychip")
-                ArcMeter(percentage: $status.swap_p, lable: "SWAP", icon: "shuffle")
-                ArcMeter(percentage: $status.hdd_p, lable: "DISK", icon: "opticaldiscdrive")
+                ArcMeter(percentage: $status.cpu_p, optionalOverlayText: $status.cpu_text, lable: "CPU", icon: "cpu")
+                ArcMeter(percentage: $status.memory_p, optionalOverlayText: $status.memory_text, lable: "MEM", icon: "memorychip")
+                ArcMeter(percentage: $status.swap_p, optionalOverlayText: $status.swap_text, lable: "SWAP", icon: "shuffle")
+                ArcMeter(percentage: $status.hdd_p, optionalOverlayText: $status.hdd_text, lable: "DISK", icon: "opticaldiscdrive")
             }
         }
         
