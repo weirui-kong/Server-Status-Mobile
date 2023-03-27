@@ -133,13 +133,11 @@ struct RawServerResponses_HAROKU: Codable{
 
 func updateUnifiedServerInfomationList_HAROKU(jsonString: String, list: inout [String : UnifiedServerInfomation]){
     //let serversResponses = try? JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8) ?? Data())
-    withAnimation(customizedSpringAnimatation){
-        if let serversResponses = try? JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8) ?? Data()){
-            for server in serversResponses.servers{
-                list[server.name + server.location] = server.toUnifiedServerInfomation()
-                //id
-            }
+    if let serversResponses = try? JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8) ?? Data()){
+        for server in serversResponses.servers{
+            list[server.name + server.location] = server.toUnifiedServerInfomation()
+            //id
+            //If a server is deleted, server data in serverList(cache in memory) won't be deleted unless restart
         }
-        
     }
 }

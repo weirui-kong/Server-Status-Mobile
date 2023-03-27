@@ -6,30 +6,16 @@
 //
 
 import SwiftUI
-struct ServerItem: Identifiable{
-    let api: String
-    let code: String
-    let tag: String
-    var id: String
-}
 
 struct ServerSelection: View {
     init(onSet: Binding<Bool>){
         //self._requestLink = requestLink
         self._onSettings = onSet
-        let dict = loadServersStoredPlist()
-        var serverItems: [ServerItem] = []
-        if let loaded_dict = dict{
-            for server in loaded_dict{
-                let sd = server as! Dictionary<String, String>
-                serverItems.append(ServerItem(api: sd["API"]!, code: sd["CODE"]!, tag: sd["TAG"]!, id: sd["CODE"]!))
-            }
-        }
-        self.serverItems = serverItems
+        self.apis = loadServersStoredPlist()
     }
     //@Binding var requestLink: (String?, APITypes?, String?)
     @Binding var onSettings: Bool
-    @State var serverItems: [ServerItem]
+    @State var apis: [API]
     //selecttion function needed
     var body: some View {
         ZStack{
@@ -37,19 +23,22 @@ struct ServerSelection: View {
             Rectangle()
                 .foregroundColor(.gray.opacity(0.1))
                 .ignoresSafeArea()
+                .onTapGesture {
+                    onSettings = false
+                }
                 //.transition(.opacity)
             //list layer
             List(){
-                ForEach(serverItems) { item in
+                ForEach(apis) { api in
                     VStack(alignment: .leading){
-                        Section(header: Text("\(item.code) - \(item.tag)").font(.title3)){
+                        Section(header: Text("\(api.code) - \(api.type.rawValue)").font(.title3)){
                             ScrollView(.horizontal){
-                                Text(item.api)
+                                Text(api.api)
                             }
                         }
                     }.onTapGesture {
                         withAnimation(){
-                            UserDefaults.standard.set(item.code, forKey: "DefaultAPILink")
+                            UserDefaults.standard.set(api.code, forKey: "DefaultAPI")
                             onSettings.toggle()
                         }
                     }
@@ -62,7 +51,7 @@ struct ServerSelection: View {
 #if DEBUG
             HStack{
                 Button("print"){
-                    print(serverItems)
+                    print(apis)
                 }
                 Button("close"){
                     withAnimation(){

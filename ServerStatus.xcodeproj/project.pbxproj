@@ -17,6 +17,7 @@
 		0A66CC2829ACC34200DEDCEE /* HAROKU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2729ACC34200DEDCEE /* HAROKU.swift */; };
 		0A66CC2C29ACC4C800DEDCEE /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2B29ACC4C800DEDCEE /* Numbers.swift */; };
 		0A729E2B2962E0F8006FA757 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A729E2A2962E0F8006FA757 /* Extensions.swift */; };
+		0A7D0C9429D1852A001D383F /* SupportedAPI.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A7D0C9329D1852A001D383F /* SupportedAPI.plist */; };
 		0A868B792962B004004F6711 /* IsScrolling in Frameworks */ = {isa = PBXBuildFile; productRef = 0A868B782962B004004F6711 /* IsScrolling */; };
 		0A98CD0B299D7CF2002AB222 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CD0A299D7CF2002AB222 /* README.md */; };
 		0A98CD0D299D7E5A002AB222 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CD0C299D7E5A002AB222 /* logo.png */; };
@@ -42,6 +43,7 @@
 		0A66CC2729ACC34200DEDCEE /* HAROKU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAROKU.swift; sourceTree = "<group>"; };
 		0A66CC2B29ACC4C800DEDCEE /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
 		0A729E2A2962E0F8006FA757 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0A7D0C9329D1852A001D383F /* SupportedAPI.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SupportedAPI.plist; sourceTree = "<group>"; };
 		0A98CD0A299D7CF2002AB222 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		0A98CD0C299D7E5A002AB222 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = SOURCE_ROOT; };
 		0AB56E1A2994D3B900DEB133 /* ServerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelection.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			children = (
 				0AC09DAA298C173A0081D7DD /* ServersStored.plist */,
 				0AC09DAC298C1E2F0081D7DD /* APIStored.swift */,
+				0A7D0C9329D1852A001D383F /* SupportedAPI.plist */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			files = (
 				0A98CD0D299D7E5A002AB222 /* logo.png in Resources */,
 				0A98CD0B299D7CF2002AB222 /* README.md in Resources */,
+				0A7D0C9429D1852A001D383F /* SupportedAPI.plist in Resources */,
 				0AC09DAB298C173A0081D7DD /* ServersStored.plist in Resources */,
 				0A22864B29271ACA00CFEC50 /* Assets.xcassets in Resources */,
 			);

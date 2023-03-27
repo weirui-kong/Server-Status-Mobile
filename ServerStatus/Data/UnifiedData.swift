@@ -34,13 +34,11 @@ extension KeyedDecodingContainer {
         try decodeIfPresent(type, forKey: key) ?? Default(wrappedValue: T.defaultValue)
     }
 }
-enum APITypes: String{
-    case HAROKU = "HAROKU", undefined
-}
+
 
 struct UnifiedServerInfomation: Identifiable {
     let id: String
-    let apiType: APITypes
+    let apiType: APIType
     var name: String
     var type: String
     var location: String
@@ -129,7 +127,7 @@ struct UnifiedServerInfomation: Identifiable {
      */
     var region: String?
     // The following four keywords must be satisfied
-    init(id: String, name: String, type: String, location: String, apiType : APITypes) {
+    init(id: String, name: String, type: String, location: String, apiType : APIType) {
         self.id = id
         self.name = name
         self.type = type
@@ -140,7 +138,7 @@ struct UnifiedServerInfomation: Identifiable {
 
 class UnifiedServerInfomationList: ObservableObject{
     @Published public var list: [String : UnifiedServerInfomation] = [:]
-    func updateList(jsonString: String, apiType: APITypes?, queryFail: inout QueryFailTypes?){
+    func updateList(jsonString: String, apiType: APIType?, queryFail: inout QueryFailureType?){
         switch(apiType){
         case .HAROKU:
             updateUnifiedServerInfomationList_HAROKU(jsonString: jsonString, list: &list)

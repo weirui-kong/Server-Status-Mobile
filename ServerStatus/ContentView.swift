@@ -9,25 +9,32 @@ import SwiftUI
 import Alamofire
 import IsScrolling
 let customizedSpringAnimatation: Animation = Animation.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5)
-enum QueryFailTypes: String{
-    case networkIssue = "Network Issue"
-    case noAvaliableJSON = "No Avaliable JSON Provided"
+enum QueryFailureType: String{
+    case networkUnreachable = "Network Unreachable"
+    case apiUnreacheable = "API Unreachable"
+    case noAvaliableAPI = "No Avaliable API Provided"
     case noActiveSevers = "No Server is Running"
     case apiTypeNotSupported = "API Type Not Supported"
+    case apiNotSelected = "No API Selected"
+    case apiNotFound = "API Not Found"
 }
 struct ContentView: View {
     //@Binding var serversStoredDict: [String : AnyObject]?
     @StateObject var serverList = UnifiedServerInfomationList()
-    @State private var autoRefresh = false
+    @State var autoRefresh: Bool = true
     //@State private var requestLink = "https://server.onespirit.fyi/json/stats.json"
-    @State private var isScrolling = false
+    @State var isScrolling: Bool = false
     //splash app icon
-    @State private var showSplashAppIcon = false
-    @State private var appIconOpacity = 0.7
-    @State private var appIconScale = 1.0
-    @State var queryJSONFail: QueryFailTypes?
-    @State var onSettings = false
- 
+    @State var showSplashAppIcon: Bool = false
+    @State var appIconOpacity: Double = 1.0
+    @State var appIconScale: Double = 0.7
+    @State var queryFailure: QueryFailureType?
+    @State var onSettings = false {
+        didSet{
+            //reloadAPIs()
+        }
+    }
+    @State var currentAPI: API?
     var body: some View {
         ZStack{
             //main layer and splash layer must be written in the same level of branch
@@ -38,11 +45,11 @@ struct ContentView: View {
                     HStack{
                         Button("set osp"){
                             let defaults = UserDefaults.standard
-                            defaults.set("OSP", forKey: "DefaultAPILink")
+                            defaults.set("OSP", forKey: "DefaultAPI")
                         }
                         Button("clear osp"){
                             let defaults = UserDefaults.standard
-                            defaults.removeObject(forKey: "DefaultAPILink")
+                            defaults.removeObject(forKey: "DefaultAPI")
                         }
                         Button("server selection"){
                             withAnimation(){
@@ -51,13 +58,13 @@ struct ContentView: View {
                         }
                         Button("print status"){
                             print(serverList.list)
-                            print(queryJSONFail)
+                            print(queryFailure?.rawValue ?? "")
                             //print(readAPIInfoFromUserDefault())
                         }
-                        Text("default:\(UserDefaults.standard.string(forKey: "DefaultAPILink") ?? String("nil"))")
+                        Text("default:\(UserDefaults.standard.string(forKey: "DefaultAPI") ?? String("nil"))")
                     }
 #endif
-                    if queryJSONFail == nil{
+                    if queryFailure == nil{
                         ScrollView{
 #if os(macOS)
                             serverListView_mac
@@ -69,23 +76,11 @@ struct ContentView: View {
                     }else{
                         VStack{
                             Spacer()
-                            switch(queryJSONFail){
-                            case .networkIssue:
-                                Text("Network Unreachable")
-                            case .noAvaliableJSON:
-                                Text("No JSON Avaliable")
-                            case .apiTypeNotSupported:
-                                Text("API Not Suported")
-                            case .noActiveSevers:
-                                Text("No Server is Running")
-                            default:
-                                Text("Unknown Error")
-                            }
+                            Text(queryFailure?.rawValue ?? "Unknown Error")
                             Spacer()
                         }.foregroundColor(.gray)
                     }
                 }.blur(radius: onSettings ? 15 : 0)
-                    .onAppear(perform: {startUpdating()})
                 //settings layer
                 if onSettings{
                     ServerSelection(onSet: $onSettings.animation())
@@ -123,7 +118,11 @@ struct ContentView: View {
                 //frame should use infinity instead
                     .transition(.opacity)
             }
-        }
+        }.onAppear(perform: {
+            reloadAPIs()
+            startUpdating()
+            
+        })
     }
     var serverListView_mac: some View{
         VStack{
@@ -144,66 +143,73 @@ struct ContentView: View {
             }
         }.scrollStatusMonitor($isScrolling, monitorMode: .common)
     }
-    func readAPIInfoFromUserDefault() -> (String?, APITypes?, String?){
-            //print("Called @State var requestLink")
-            let defaults = UserDefaults.standard
-            if let defaultAPILink_Code = defaults.string(forKey: "DefaultAPILink"){
-                let dict = loadServersStoredPlist()
-                if let loaded_dict = dict{
-                    for server in loaded_dict{
-                        if (server as! Dictionary<String, String>)["CODE"] == defaultAPILink_Code{
-                            //amendments needed
-                            if let _ = (server as! Dictionary<String, String>)["TAG"]{
-                                withAnimation(.easeInOut){
-                                    queryJSONFail = nil
-                                }
-                                return (
-                                    (server as! Dictionary<String, String>)["API"],
-                                    APITypes(rawValue: (server as! Dictionary<String, String>)["TAG"]!),
-                                    (server as! Dictionary<String, String>)["CODE"]
-                                )
-                            }else{
-                                withAnimation(.easeInOut){
-                                    queryJSONFail = .apiTypeNotSupported
-                                }
-                                return(nil, nil, nil)
-                            }
-                        }
-                    }
-                    //If no returns have been made, it means there is no api address that confroms the given code
-                    withAnimation(.easeInOut){
-                        queryJSONFail = .noAvaliableJSON
-                    }
-                }
+    func readDefaultAPI() -> (QueryFailureType?, API?){
+        //print("Called @State var requestLink")
+        let defaultAPICode = UserDefaults.standard.string(forKey: "DefaultAPI")
+        let apisStored: [API] = loadServersStoredPlist()
+        let supportedAPI: [String] = loadSupportedAPIPlist()
+        //check if defaultAPICode is set
+        if defaultAPICode == nil{
+            return (QueryFailureType.apiNotSelected, nil)
+        }
+        //check if serverStored is empty
+        if apisStored.isEmpty{
+            return (QueryFailureType.noAvaliableAPI, nil)
+        }
+        //check if defaultAPI(CODE) exists in serverStored
+        if let api = apisStored.first(where: {$0.code == defaultAPICode}){
+            //check if defaultAPI(TYPE) exists in SupportedAPI.plist
+            if supportedAPI.contains(where: {$0 == api.type.rawValue}){
+                //the defaultAPI(CODE) exists inSupportedAPI.plist
+                //and the corresponding defaultAPI(TYPE) also exists in SupportedAPI.plist
+                return (nil, api)
+            }else{
+                return (QueryFailureType.apiTypeNotSupported, nil)
             }
-            return (nil, nil, nil)
+        }else{
+            //the defaultAPICode does not exist in apisStored
+            return (QueryFailureType.apiNotFound, nil)
+        }
+    }
+    func reloadAPIs(){
+        let defaultAPI = readDefaultAPI()
+        print(defaultAPI)
+        if let api = defaultAPI.1{
+            currentAPI = api
+        }else{
+            queryFailure = defaultAPI.0
+        }
     }
     func startUpdating(){
-        if !autoRefresh{
-            autoRefresh = true
+        withAnimation(.easeInOut){
             DispatchQueue.global().async {
+                self.autoRefresh = true
                 while (self.autoRefresh){
-                    let apiInfo = readAPIInfoFromUserDefault()
-                    if let rl = apiInfo.0{
-                        AF.request(rl).response { (response) in
+                    if let api: API = currentAPI{
+                        AF.request(api.api).response { (response) in
                             switch response.result{
                             case.success(let jsonData):
-                                let jsonString = String(decoding: jsonData!, as: UTF8.self)
-                                if (!self.isScrolling){
-                                    serverList.updateList(jsonString: jsonString, apiType: apiInfo.1, queryFail: &queryJSONFail)
+                                //check if status code is 200
+                                if response.response?.statusCode == 200{
+                                    let jsonString = String(decoding: jsonData!, as: UTF8.self)
+                                    if (!self.isScrolling){
+                                        serverList.updateList(jsonString: jsonString, apiType: api.type, queryFail: &queryFailure)
+                                        queryFailure = nil
+                                    }
+                                }else{
+                                    //errors like 404
+                                    queryFailure = .apiUnreacheable
                                 }
-                                withAnimation(.easeInOut){
-                                    queryJSONFail = nil
-                                }
-                                
                                 break
                             case.failure(_):
-                                withAnimation(.easeInOut){
-                                    queryJSONFail = .networkIssue
-                                }
+                                //network failure
+                                queryFailure = .networkUnreachable
                                 break
                             }
                         }
+                    }else{
+                        //no avaliable api in currentAPI
+                        queryFailure = .noAvaliableAPI
                     }
                     sleep(2)
                 }

@@ -7,7 +7,7 @@
 		<string>https://server.onespirit.fyi/json/stats.json</string>
 		<key>CODE</key>
 		<string>OSP</string>
-		<key>TAG</key>
+		<key>TYPE</key>
 		<string>HAROKU</string>
 	</dict>
 	<dict>
@@ -15,7 +15,7 @@
 		<string>https://server.onespirit.fyi/json/stats.json</string>
 		<key>CODE</key>
 		<string>OSP2</string>
-		<key>TAG</key>
+		<key>TYPE</key>
 		<string>HAROKU?</string>
 	</dict>
 	<dict>
@@ -23,7 +23,7 @@
 		<string>https://server.onespirit.fyi/json/stats.jsonnn</string>
 		<key>CODE</key>
 		<string>OSP3</string>
-		<key>TAG</key>
+		<key>TYPE</key>
 		<string>HAROKU</string>
 	</dict>
 </array>
