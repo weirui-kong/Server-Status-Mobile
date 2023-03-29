@@ -14,10 +14,9 @@
 		0A22865D29274C7B00CFEC50 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0A22865C29274C7B00CFEC50 /* Alamofire */; };
 		0A66CC2229AC73B200DEDCEE /* PipeMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2129AC73B200DEDCEE /* PipeMeter.swift */; };
 		0A66CC2429AC73F400DEDCEE /* MeterStaticConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */; };
-		0A66CC2829ACC34200DEDCEE /* HAROKU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2729ACC34200DEDCEE /* HAROKU.swift */; };
+		0A66CC2829ACC34200DEDCEE /* HOTARU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2729ACC34200DEDCEE /* HOTARU.swift */; };
 		0A66CC2C29ACC4C800DEDCEE /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2B29ACC4C800DEDCEE /* Numbers.swift */; };
 		0A729E2B2962E0F8006FA757 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A729E2A2962E0F8006FA757 /* Extensions.swift */; };
-		0A7D0C9429D1852A001D383F /* SupportedAPI.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A7D0C9329D1852A001D383F /* SupportedAPI.plist */; };
 		0A868B792962B004004F6711 /* IsScrolling in Frameworks */ = {isa = PBXBuildFile; productRef = 0A868B782962B004004F6711 /* IsScrolling */; };
 		0A98CD0B299D7CF2002AB222 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CD0A299D7CF2002AB222 /* README.md */; };
 		0A98CD0D299D7E5A002AB222 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A98CD0C299D7E5A002AB222 /* logo.png */; };
@@ -40,10 +39,9 @@
 		0A22865729271CF200CFEC50 /* UnifiedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedData.swift; sourceTree = "<group>"; };
 		0A66CC2129AC73B200DEDCEE /* PipeMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipeMeter.swift; sourceTree = "<group>"; };
 		0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterStaticConfig.swift; sourceTree = "<group>"; };
-		0A66CC2729ACC34200DEDCEE /* HAROKU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAROKU.swift; sourceTree = "<group>"; };
+		0A66CC2729ACC34200DEDCEE /* HOTARU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HOTARU.swift; sourceTree = "<group>"; };
 		0A66CC2B29ACC4C800DEDCEE /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
 		0A729E2A2962E0F8006FA757 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		0A7D0C9329D1852A001D383F /* SupportedAPI.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SupportedAPI.plist; sourceTree = "<group>"; };
 		0A98CD0A299D7CF2002AB222 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		0A98CD0C299D7E5A002AB222 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = SOURCE_ROOT; };
 		0AB56E1A2994D3B900DEB133 /* ServerSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelection.swift; sourceTree = "<group>"; };
@@ -143,7 +141,7 @@
 		0A66CC2629ACC2D400DEDCEE /* JSONResponses */ = {
 			isa = PBXGroup;
 			children = (
-				0A66CC2729ACC34200DEDCEE /* HAROKU.swift */,
+				0A66CC2729ACC34200DEDCEE /* HOTARU.swift */,
 			);
 			path = JSONResponses;
 			sourceTree = "<group>";
@@ -153,7 +151,6 @@
 			children = (
 				0AC09DAA298C173A0081D7DD /* ServersStored.plist */,
 				0AC09DAC298C1E2F0081D7DD /* APIStored.swift */,
-				0A7D0C9329D1852A001D383F /* SupportedAPI.plist */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -261,7 +258,6 @@
 			files = (
 				0A98CD0D299D7E5A002AB222 /* logo.png in Resources */,
 				0A98CD0B299D7CF2002AB222 /* README.md in Resources */,
-				0A7D0C9429D1852A001D383F /* SupportedAPI.plist in Resources */,
 				0AC09DAB298C173A0081D7DD /* ServersStored.plist in Resources */,
 				0A22864B29271ACA00CFEC50 /* Assets.xcassets in Resources */,
 			);
@@ -275,7 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AB88A0029616E3000ED1526 /* ServerCard.swift in Sources */,
-				0A66CC2829ACC34200DEDCEE /* HAROKU.swift in Sources */,
+				0A66CC2829ACC34200DEDCEE /* HOTARU.swift in Sources */,
 				0A66CC2429AC73F400DEDCEE /* MeterStaticConfig.swift in Sources */,
 				0AC09DAD298C1E2F0081D7DD /* APIStored.swift in Sources */,
 				0AB88A0429616E5200ED1526 /* Regions.swift in Sources */,

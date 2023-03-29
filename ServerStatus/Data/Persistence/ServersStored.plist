@@ -8,7 +8,7 @@
 		<key>CODE</key>
 		<string>OSP</string>
 		<key>TYPE</key>
-		<string>HAROKU</string>
+		<string>HOTARU</string>
 	</dict>
 	<dict>
 		<key>API</key>
@@ -16,7 +16,7 @@
 		<key>CODE</key>
 		<string>OSP2</string>
 		<key>TYPE</key>
-		<string>HAROKU?</string>
+		<string>SHIROI</string>
 	</dict>
 	<dict>
 		<key>API</key>
@@ -24,7 +24,7 @@
 		<key>CODE</key>
 		<string>OSP3</string>
 		<key>TYPE</key>
-		<string>HAROKU</string>
+		<string>HOTARU</string>
 	</dict>
 </array>
 </plist>

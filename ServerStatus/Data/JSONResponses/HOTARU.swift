@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-class RawServerResponse_HAROKU: Codable {
+class RawServerResponse_HOTARU: Codable {
     let name: String
     let type: String
     let location: String
@@ -37,7 +37,7 @@ class RawServerResponse_HAROKU: Codable {
             name: self.name,
             type: self.type,
             location: self.location,
-            apiType: .HAROKU
+            apiType: .HOTARU
         )
         unified.location = self.location
         //online
@@ -125,15 +125,15 @@ class RawServerResponse_HAROKU: Codable {
     }
 }
 
-struct RawServerResponses_HAROKU: Codable{
-    let servers: [RawServerResponse_HAROKU]
+struct RawServerResponses_HOTARU: Codable{
+    let servers: [RawServerResponse_HOTARU]
     let updated: String
     
 }
 
-func updateUnifiedServerInfomationList_HAROKU(jsonString: String, list: inout [String : UnifiedServerInfomation]){
+func updateUnifiedServerInfomationList_HOTARU(jsonString: String, list: inout [String : UnifiedServerInfomation]){
     //let serversResponses = try? JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8) ?? Data())
-    if let serversResponses = try? JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8) ?? Data()){
+    if let serversResponses = try? JSONDecoder().decode(RawServerResponses_HOTARU.self, from: jsonString.data(using: .utf8) ?? Data()){
         for server in serversResponses.servers{
             list[server.name + server.location] = server.toUnifiedServerInfomation()
             //id

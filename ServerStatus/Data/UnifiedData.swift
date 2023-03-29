@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 /*
  * see https://onevcat.com/2020/11/codable-default/
  */
@@ -139,14 +140,16 @@ struct UnifiedServerInfomation: Identifiable {
 class UnifiedServerInfomationList: ObservableObject{
     @Published public var list: [String : UnifiedServerInfomation] = [:]
     func updateList(jsonString: String, apiType: APIType?, queryFail: inout QueryFailureType?){
-        switch(apiType){
-        case .HAROKU:
-            updateUnifiedServerInfomationList_HAROKU(jsonString: jsonString, list: &list)
-        default:
-            break
-        }
-        if list.isEmpty{
-            queryFail = .noActiveSevers
+        withAnimation(.easeInOut){
+            switch(apiType){
+            case .HOTARU:
+                updateUnifiedServerInfomationList_HOTARU(jsonString: jsonString, list: &list)
+            default:
+                break
+            }
+            if list.isEmpty{
+                queryFail = .noActiveSevers
+            }
         }
     }
 }

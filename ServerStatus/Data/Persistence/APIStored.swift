@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum APIType: String, Codable{
-    case HAROKU = "HAROKU"
+    case HOTARU = "HOTARU"
     case undefined = "UNDEFINED"
 }
 
@@ -30,10 +30,4 @@ func loadServersStoredPlist() -> [API]{
         }
     }
     return apis
-}
-func loadSupportedAPIPlist() -> [String]{
-    if let path = Bundle.main.path(forResource: "SupportedAPI", ofType: "plist") {
-        return NSArray(contentsOfFile: path) as! [String]
-    }
-    return [String]()
 }

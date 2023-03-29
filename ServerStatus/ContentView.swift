@@ -17,6 +17,10 @@ enum QueryFailureType: String{
     case apiTypeNotSupported = "API Type Not Supported"
     case apiNotSelected = "No API Selected"
     case apiNotFound = "API Not Found"
+    
+}
+enum QueryProcessType: String{
+    case collectingData = "Collecting data from your server..."
 }
 struct ContentView: View {
     //@Binding var serversStoredDict: [String : AnyObject]?
@@ -25,13 +29,18 @@ struct ContentView: View {
     //@State private var requestLink = "https://server.onespirit.fyi/json/stats.json"
     @State var isScrolling: Bool = false
     //splash app icon
-    @State var showSplashAppIcon: Bool = false
+    @State var showSplashAppIcon: Bool = true
     @State var appIconOpacity: Double = 1.0
     @State var appIconScale: Double = 0.7
     @State var queryFailure: QueryFailureType?
     @State var onSettings = false {
+        willSet{
+            autoRefresh = false
+        }
         didSet{
-            //reloadAPIs()
+            reloadAPIs()
+            startUpdating()
+            
         }
     }
     @State var currentAPI: API?
@@ -42,27 +51,7 @@ struct ContentView: View {
                 //main layer
                 VStack{
 #if DEBUG
-                    HStack{
-                        Button("set osp"){
-                            let defaults = UserDefaults.standard
-                            defaults.set("OSP", forKey: "DefaultAPI")
-                        }
-                        Button("clear osp"){
-                            let defaults = UserDefaults.standard
-                            defaults.removeObject(forKey: "DefaultAPI")
-                        }
-                        Button("server selection"){
-                            withAnimation(){
-                                onSettings = true
-                            }
-                        }
-                        Button("print status"){
-                            print(serverList.list)
-                            print(queryFailure?.rawValue ?? "")
-                            //print(readAPIInfoFromUserDefault())
-                        }
-                        Text("default:\(UserDefaults.standard.string(forKey: "DefaultAPI") ?? String("nil"))")
-                    }
+                    mainViewDebugButtons
 #endif
                     if queryFailure == nil{
                         ScrollView{
@@ -84,6 +73,7 @@ struct ContentView: View {
                 //settings layer
                 if onSettings{
                     ServerSelection(onSet: $onSettings.animation())
+                        .onDisappear(){reloadAPIs()}
                     //.transition(.move(edge: .top))
                 }
                 
@@ -121,7 +111,6 @@ struct ContentView: View {
         }.onAppear(perform: {
             reloadAPIs()
             startUpdating()
-            
         })
     }
     var serverListView_mac: some View{
@@ -147,7 +136,6 @@ struct ContentView: View {
         //print("Called @State var requestLink")
         let defaultAPICode = UserDefaults.standard.string(forKey: "DefaultAPI")
         let apisStored: [API] = loadServersStoredPlist()
-        let supportedAPI: [String] = loadSupportedAPIPlist()
         //check if defaultAPICode is set
         if defaultAPICode == nil{
             return (QueryFailureType.apiNotSelected, nil)
@@ -159,67 +147,104 @@ struct ContentView: View {
         //check if defaultAPI(CODE) exists in serverStored
         if let api = apisStored.first(where: {$0.code == defaultAPICode}){
             //check if defaultAPI(TYPE) exists in SupportedAPI.plist
-            if supportedAPI.contains(where: {$0 == api.type.rawValue}){
+            if api.type != .undefined{
                 //the defaultAPI(CODE) exists inSupportedAPI.plist
                 //and the corresponding defaultAPI(TYPE) also exists in SupportedAPI.plist
-                return (nil, api)
+                return (nil, api);
             }else{
-                return (QueryFailureType.apiTypeNotSupported, nil)
+                return (QueryFailureType.apiTypeNotSupported, nil);
             }
         }else{
             //the defaultAPICode does not exist in apisStored
-            return (QueryFailureType.apiNotFound, nil)
+            return (QueryFailureType.apiNotFound, nil);
         }
     }
     func reloadAPIs(){
         let defaultAPI = readDefaultAPI()
         print(defaultAPI)
         if let api = defaultAPI.1{
+            //valid
             currentAPI = api
         }else{
+            //ivalid
             queryFailure = defaultAPI.0
+            autoRefresh = false
         }
     }
     func startUpdating(){
-        withAnimation(.easeInOut){
+        //withAnimation(.easeInOut){
             DispatchQueue.global().async {
-                self.autoRefresh = true
+                autoRefresh = true
                 while (self.autoRefresh){
+                    print("Getting...")
                     if let api: API = currentAPI{
-                        AF.request(api.api).response { (response) in
-                            switch response.result{
-                            case.success(let jsonData):
-                                //check if status code is 200
-                                if response.response?.statusCode == 200{
-                                    let jsonString = String(decoding: jsonData!, as: UTF8.self)
-                                    if (!self.isScrolling){
-                                        serverList.updateList(jsonString: jsonString, apiType: api.type, queryFail: &queryFailure)
-                                        queryFailure = nil
+                        AF.request(api.api)
+                        {$0.timeoutInterval = 5}
+                            .response { (response) in
+                                switch response.result{
+                                case.success(let jsonData):
+                                    //check if status code is 200
+                                    if response.response?.statusCode == 200{
+                                        let jsonString = String(decoding: jsonData!, as: UTF8.self)
+                                        if (!self.isScrolling){
+                                            serverList.updateList(jsonString: jsonString, apiType: api.type, queryFail: &queryFailure)
+                                            queryFailure = nil
+                                        }
+                                    }else{
+                                        //errors like 404
+                                        queryFailure = .apiUnreacheable
                                     }
-                                }else{
-                                    //errors like 404
-                                    queryFailure = .apiUnreacheable
+                                case.failure(_):
+                                    //network failure
+                                    queryFailure = .networkUnreachable
                                 }
-                                break
-                            case.failure(_):
-                                //network failure
-                                queryFailure = .networkUnreachable
-                                break
                             }
-                        }
                     }else{
-                        //no avaliable api in currentAPI
-                        queryFailure = .noAvaliableAPI
+                        //currentAPI is nil
+                        queryFailure = .apiNotSelected
                     }
                     sleep(2)
                 }
             }
+        //}
+    }
+#if DEBUG
+    var mainViewDebugButtons: some View{
+        HStack{
+            Button("set osp"){
+                let defaults = UserDefaults.standard
+                defaults.set("OSP", forKey: "DefaultAPI")
+                reloadAPIs()
+            }
+            Button("clear osp"){
+                let defaults = UserDefaults.standard
+                defaults.removeObject(forKey: "DefaultAPI")
+                reloadAPIs()
+                startUpdating()
+            }
+            Button("server selection"){
+                withAnimation(){
+                    onSettings = true
+                }
+            }
+            Button("print status"){
+                print(serverList.list)
+                print(queryFailure?.rawValue ?? "")
+                //print(readAPIInfoFromUserDefault())
+            }
+            Button("reloadAPI"){
+                reloadAPIs()
+                startUpdating()
+            }
+            Text("default:\(UserDefaults.standard.string(forKey: "DefaultAPI") ?? String("nil"))")
         }
     }
+#endif
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
