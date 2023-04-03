@@ -135,7 +135,8 @@ func updateUnifiedServerInfomationList_HOTARU(jsonString: String, list: inout [S
     //let serversResponses = try? JSONDecoder().decode(RawServerResponses_HAROKU.self, from: jsonString.data(using: .utf8) ?? Data())
     if let serversResponses = try? JSONDecoder().decode(RawServerResponses_HOTARU.self, from: jsonString.data(using: .utf8) ?? Data()){
         for server in serversResponses.servers{
-            list[server.name + server.location] = server.toUnifiedServerInfomation()
+            let unified = server.toUnifiedServerInfomation()
+            list[unified.id] = unified
             //id
             //If a server is deleted, server data in serverList(cache in memory) won't be deleted unless restart
         }

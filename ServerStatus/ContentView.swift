@@ -8,6 +8,7 @@
 import SwiftUI
 import Alamofire
 import IsScrolling
+import ActivityKit
 let customizedSpringAnimatation: Animation = Animation.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.5)
 enum QueryFailureType: String{
     case networkUnreachable = "Network Unreachable"
@@ -29,7 +30,7 @@ struct ContentView: View {
     //@State private var requestLink = "https://server.onespirit.fyi/json/stats.json"
     @State var isScrolling: Bool = false
     //splash app icon
-    @State var showSplashAppIcon: Bool = true
+    @State var showSplashAppIcon: Bool = false
     @State var appIconOpacity: Double = 1.0
     @State var appIconScale: Double = 0.7
     @State var queryFailure: QueryFailureType?
@@ -44,6 +45,14 @@ struct ContentView: View {
         }
     }
     @State var currentAPI: API?
+    @State var monitoringServerID: String? {
+        willSet{
+            stopMonitoringServer()
+        }
+        didSet{
+            startMonitoringServer()
+        }
+    }
     var body: some View {
         ZStack{
             //main layer and splash layer must be written in the same level of branch
@@ -117,7 +126,7 @@ struct ContentView: View {
         VStack{
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 360 * 1, maximum: 450 * 1))], alignment: .center, spacing: 10 * 1){
                 ForEach(Array($serverList.list.values)) { item in
-                    ServerCard(status: item)
+                    ServerCard(status: item, monitoringServerID: self.$monitoringServerID)
                         .scrollSensor()
                 }
             }.scrollStatusMonitor($isScrolling, monitorMode: .common)
@@ -127,11 +136,12 @@ struct ContentView: View {
     var serverListView: some View{
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 360, maximum: 400))], alignment: .center, spacing: 10){
             ForEach(Array($serverList.list.values)) { item in
-                ServerCard(status: item)
+                ServerCard(status: item, monitoringServerID: self.$monitoringServerID)
                     .scrollSensor()
             }
         }.scrollStatusMonitor($isScrolling, monitorMode: .common)
     }
+    // MARK: - General Functions
     func readDefaultAPI() -> (QueryFailureType?, API?){
         //print("Called @State var requestLink")
         let defaultAPICode = UserDefaults.standard.string(forKey: "DefaultAPI")
@@ -173,41 +183,81 @@ struct ContentView: View {
     }
     func startUpdating(){
         //withAnimation(.easeInOut){
-            DispatchQueue.global().async {
-                autoRefresh = true
-                while (self.autoRefresh){
-                    print("Getting...")
-                    if let api: API = currentAPI{
-                        AF.request(api.api)
-                        {$0.timeoutInterval = 5}
-                            .response { (response) in
-                                switch response.result{
-                                case.success(let jsonData):
-                                    //check if status code is 200
-                                    if response.response?.statusCode == 200{
-                                        let jsonString = String(decoding: jsonData!, as: UTF8.self)
-                                        if (!self.isScrolling){
-                                            serverList.updateList(jsonString: jsonString, apiType: api.type, queryFail: &queryFailure)
-                                            queryFailure = nil
-                                        }
-                                    }else{
-                                        //errors like 404
-                                        queryFailure = .apiUnreacheable
+        DispatchQueue.global().async {
+            autoRefresh = true
+            while (self.autoRefresh){
+                print("Getting...")
+                if let api: API = currentAPI{
+                    AF.request(api.api)
+                    {$0.timeoutInterval = 5}
+                        .response { (response) in
+                            switch response.result{
+                            case.success(let jsonData):
+                                //check if status code is 200
+                                if response.response?.statusCode == 200{
+                                    let jsonString = String(decoding: jsonData!, as: UTF8.self)
+                                    if (!self.isScrolling){
+                                        serverList.updateList(jsonString: jsonString, apiType: api.type, queryFail: &queryFailure)
+                                        queryFailure = nil
                                     }
-                                case.failure(_):
-                                    //network failure
-                                    queryFailure = .networkUnreachable
+                                }else{
+                                    //errors like 404
+                                    queryFailure = .apiUnreacheable
                                 }
+                            case.failure(_):
+                                //network failure
+                                queryFailure = .networkUnreachable
                             }
-                    }else{
-                        //currentAPI is nil
-                        queryFailure = .apiNotSelected
-                    }
-                    sleep(2)
+                        }
+                }else{
+                    //currentAPI is nil
+                    queryFailure = .apiNotSelected
                 }
+                sleep(2)
             }
+        }
         //}
     }
+    // MARK: - Activity Functions
+    func startMonitoringServer(){
+        if monitoringServerID != nil{
+            if #available(iOS 16.1, *) {
+                let serverActivityAttributes = ServerStatusActivityAttributes()
+                let initialContentState = ServerStatusActivityAttributes.ServerStatus(serverInfo: serverList.list[monitoringServerID!]!)
+                do{
+                    let serverStatusActivity = try Activity<ServerStatusActivityAttributes>.request(
+                        attributes: serverActivityAttributes,
+                        contentState: initialContentState,
+                        pushType: nil
+                    )
+                }catch(let error){
+                    print("Error Live Activity \(error.localizedDescription)")
+                }
+                
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
+    func updateMonitoringServer(){
+        if #available(iOS 16.2, *) {
+            Task{
+                await Activity<ServerStatusActivityAttributes>.activities.first?
+                    .update(using: ServerStatusActivityAttributes.ServerStatus(serverInfo: serverList.list[monitoringServerID!]!))
+            }
+        }
+    }
+    func stopMonitoringServer(){
+        if #available(iOS 16.1, *) {
+            Task{
+                await Activity<ServerStatusActivityAttributes>.activities.first?.end(dismissalPolicy: .immediate)
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        
+    }
+    // MARK: - Debug Buttons
 #if DEBUG
     var mainViewDebugButtons: some View{
         HStack{

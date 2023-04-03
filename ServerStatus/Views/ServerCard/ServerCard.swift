@@ -13,16 +13,29 @@ struct ServerCard: View, Identifiable {
     @State var detailedMode = false
     @State var arrowAngle: Double = 0
     @Binding var status: UnifiedServerInfomation
+    @Binding var monitoringServerID: String?
     //    var miniMode: Bool{
     //        return (!detailedMode) && UIDevice.isIPhone
     //    }
+    var currentServerIsBeingMonitored: Bool
+    init(status: Binding<UnifiedServerInfomation>, monitoringServerID: Binding<String?>) {
+        self._status = status
+        self._monitoringServerID = monitoringServerID
+        self.currentServerIsBeingMonitored = {
+            if let sid = monitoringServerID.wrappedValue{
+                return status.id == sid
+            }else{
+                return false
+            }
+        }()
+    }
     var body: some View {
         ZStack{
             
-                RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 20)
                 .fill(status.isOnline ? Color.blue.opacity(0.65).gradient : Color.gray.gradient)
-                    .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
-          
+                .shadow(color: .gray.opacity(0.7), radius: 5, x: 3, y: 3)
+            
             //default layout
             VStack{
                 basicInfo
@@ -37,6 +50,7 @@ struct ServerCard: View, Identifiable {
             VStack{
                 HStack{
                     Spacer()
+                    pinToActivity
                     realTimeToggler
                 }
                 Spacer()
@@ -56,7 +70,7 @@ struct ServerCard: View, Identifiable {
             .background(Circle().foregroundColor(.gray.opacity(detailedMode ? 0.15 : 0)).frame(width: 25, height: 25, alignment: .center))
             .foregroundColor(.white).opacity(detailedMode ? 0.8 : 0.6)
             .onTapGesture {
-                withAnimation(){
+                withAnimation(customizedSpringAnimatation){
                     detailedMode.toggle()
                     if detailedMode{
                         arrowAngle += 180
@@ -65,6 +79,17 @@ struct ServerCard: View, Identifiable {
                     }
                 }
             }
+    }
+    var pinToActivity: some View{
+        Image(systemName: currentServerIsBeingMonitored ? "pin.slash.fill" : "pin")
+            .foregroundColor(.white.opacity(0.8))
+            .rotationEffect(.degrees(20))
+            .onTapGesture {
+                withAnimation{
+                    monitoringServerID = currentServerIsBeingMonitored ? nil : self.status.id
+                }
+            }
+        
     }
     var miniModeInfo: some View{
         VStack{

@@ -37,7 +37,7 @@ extension KeyedDecodingContainer {
 }
 
 
-struct UnifiedServerInfomation: Identifiable {
+struct UnifiedServerInfomation: Identifiable, Codable, Hashable {
     let id: String
     let apiType: APIType
     var name: String

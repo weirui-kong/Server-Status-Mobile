@@ -12,6 +12,8 @@
 		0A22864B29271ACA00CFEC50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A22864A29271ACA00CFEC50 /* Assets.xcassets */; };
 		0A22865829271CF200CFEC50 /* UnifiedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A22865729271CF200CFEC50 /* UnifiedData.swift */; };
 		0A22865D29274C7B00CFEC50 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0A22865C29274C7B00CFEC50 /* Alamofire */; };
+		0A4B039129DA784C006AF426 /* ServerActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B039029DA784C006AF426 /* ServerActivity.swift */; };
+		0A4B03CF29DAD0F3006AF426 /* ActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4B039229DAC0A0006AF426 /* ActivityWidget.swift */; };
 		0A66CC2229AC73B200DEDCEE /* PipeMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2129AC73B200DEDCEE /* PipeMeter.swift */; };
 		0A66CC2429AC73F400DEDCEE /* MeterStaticConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */; };
 		0A66CC2829ACC34200DEDCEE /* HOTARU.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A66CC2729ACC34200DEDCEE /* HOTARU.swift */; };
@@ -30,6 +32,19 @@
 		0ACE5ED729C31EBB0027EE8F /* PopoverBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ACE5ED629C31EBB0027EE8F /* PopoverBackgroundView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0A4B03B129DAC5BD006AF426 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0A22864329271AC700CFEC50 /* ServerStatus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ServerStatus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A22864629271AC700CFEC50 /* ServerStatusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStatusApp.swift; sourceTree = "<group>"; };
@@ -37,6 +52,10 @@
 		0A22864A29271ACA00CFEC50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A22864C29271ACA00CFEC50 /* ServerStatus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ServerStatus.entitlements; sourceTree = "<group>"; };
 		0A22865729271CF200CFEC50 /* UnifiedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedData.swift; sourceTree = "<group>"; };
+		0A4B039029DA784C006AF426 /* ServerActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerActivity.swift; sourceTree = "<group>"; };
+		0A4B039229DAC0A0006AF426 /* ActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityWidget.swift; sourceTree = "<group>"; };
+		0A4B039A29DAC5BB006AF426 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		0A4B039C29DAC5BB006AF426 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		0A66CC2129AC73B200DEDCEE /* PipeMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipeMeter.swift; sourceTree = "<group>"; };
 		0A66CC2329AC73F400DEDCEE /* MeterStaticConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeterStaticConfig.swift; sourceTree = "<group>"; };
 		0A66CC2729ACC34200DEDCEE /* HOTARU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HOTARU.swift; sourceTree = "<group>"; };
@@ -71,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				0A22864529271AC700CFEC50 /* ServerStatus */,
+				0A4B039929DAC5BB006AF426 /* Frameworks */,
 				0A22864429271AC700CFEC50 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,6 +121,8 @@
 		0A22865529271CB100CFEC50 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0A66CC2F29AD9EFA00DEDCEE /* Metas */,
+				0A4B038F29DA783D006AF426 /* Activity */,
 				0ACE5ED329C31E620027EE8F /* View Utils */,
 				0A66CC2529ACA38E00DEDCEE /* ServerCard */,
 				0AB56E1A2994D3B900DEB133 /* ServerSelection.swift */,
@@ -121,19 +143,28 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		0A66CC2029AC723300DEDCEE /* Widgets */ = {
+		0A4B038F29DA783D006AF426 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
-				0A66CC2F29AD9EFA00DEDCEE /* Metas */,
+				0A4B039229DAC0A0006AF426 /* ActivityWidget.swift */,
+				0A4B039029DA784C006AF426 /* ServerActivity.swift */,
 			);
-			path = Widgets;
+			path = Activity;
+			sourceTree = "<group>";
+		};
+		0A4B039929DAC5BB006AF426 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0A4B039A29DAC5BB006AF426 /* WidgetKit.framework */,
+				0A4B039C29DAC5BB006AF426 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0A66CC2529ACA38E00DEDCEE /* ServerCard */ = {
 			isa = PBXGroup;
 			children = (
 				0AB889FF29616E3000ED1526 /* ServerCard.swift */,
-				0A66CC2029AC723300DEDCEE /* Widgets */,
 			);
 			path = ServerCard;
 			sourceTree = "<group>";
@@ -200,6 +231,7 @@
 				0A22863F29271AC700CFEC50 /* Sources */,
 				0A22864029271AC700CFEC50 /* Frameworks */,
 				0A22864129271AC700CFEC50 /* Resources */,
+				0A4B03B129DAC5BD006AF426 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -221,7 +253,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					0A22864229271AC700CFEC50 = {
@@ -273,6 +305,7 @@
 				0AB88A0029616E3000ED1526 /* ServerCard.swift in Sources */,
 				0A66CC2829ACC34200DEDCEE /* HOTARU.swift in Sources */,
 				0A66CC2429AC73F400DEDCEE /* MeterStaticConfig.swift in Sources */,
+				0A4B039129DA784C006AF426 /* ServerActivity.swift in Sources */,
 				0AC09DAD298C1E2F0081D7DD /* APIStored.swift in Sources */,
 				0AB88A0429616E5200ED1526 /* Regions.swift in Sources */,
 				0AB88A0229616E3F00ED1526 /* ArcMeter.swift in Sources */,
@@ -281,6 +314,7 @@
 				0A66CC2C29ACC4C800DEDCEE /* Numbers.swift in Sources */,
 				0ACE5ED729C31EBB0027EE8F /* PopoverBackgroundView.swift in Sources */,
 				0ACE5ED529C31E8A0027EE8F /* TransparentPopoverBackgroundView.swift in Sources */,
+				0A4B03CF29DAD0F3006AF426 /* ActivityWidget.swift in Sources */,
 				0A22864929271AC700CFEC50 /* ContentView.swift in Sources */,
 				0A66CC2229AC73B200DEDCEE /* PipeMeter.swift in Sources */,
 				0A22864729271AC700CFEC50 /* ServerStatusApp.swift in Sources */,
@@ -341,6 +375,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -348,6 +384,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 			};
 			name = Debug;
 		};
@@ -395,12 +432,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 			};
 			name = Release;
 		};
@@ -419,6 +459,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Server Status";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -452,6 +493,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Server Status";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
